@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:models="clr-namespace:CargadosTrucking.CustomView"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+            xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             mc:Ignorable="d"
+             Visual="Material"
+             Style="{StaticResource Mainpage}"
+             x:Class="CargadosTrucking.MainPage">
+
+    <StackLayout Margin="20,20,20,20">
+        <ff:CachedImage x:Name  = "photoselected" 
+                LoadingPlaceholder   = "album.png"
+                                
+                ErrorPlaceholder     = "Error"
+                HeightRequest        = "120"
+                CacheDuration        = "30"
+                RetryCount           = "3"
+                RetryDelay           = "450"             
+                Source="CargaDosLogo"
+                DownsampleToViewSize = "true">
+   
+        </ff:CachedImage>
+
+        <Label Text="Captura de viaje" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
+        <Entry Placeholder="# de viaje" Text="{Binding Viajenumero}" Style="{StaticResource InputMain}"></Entry>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+            <Label  Text="Fotografias" TextColor="#354883" FontAttributes="Bold"/>
+            <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20"/>
+            <Button HorizontalOptions="End"  ImageSource="image.png" Command="{Binding SeleccionarFoto}" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20" />
+
+        </StackLayout>
+        
+        <models:InfiniteListView 
+                              x:Name="ListaTiendas"
+                              ItemsSource="{Binding ImagesList}"
+                              VerticalOptions="FillAndExpand"
+                              HasUnevenRows="True" 
+                              IsVisible="{Binding Eventosexisten}"
+                              BackgroundColor="{StaticResource blanco}"
+                              IsPullToRefreshEnabled="False"
+                              IsGroupingEnabled="False"
+                             SeparatorColor="Transparent"
+                              ItemTapped="tappedservice"
+                            
+                              SelectionMode="None"
+                             
+                              IsRefreshing="{Binding IsBusy,Mode=OneWay}"
+                              >
+            <x:Arguments>
+                <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+            </x:Arguments>
+            <ListView.Header>
+                <Frame Padding="0,0,0,0" CornerRadius="20">
+                    <StackLayout  BackgroundColor="#354883"  Orientation="Horizontal">
+                    <Label Margin="8,8,5,8" Text="Fotografias agregadas"
+               TextColor="White"
+              />
+                </StackLayout>
+                </Frame>
+            </ListView.Header>
+            <models:InfiniteListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame Padding="0,0,0,0" Margin="0,5,0,5" HasShadow="True" CornerRadius="10">
+                            <StackLayout  BackgroundColor="{StaticResource blanco}"  Orientation="Horizontal">
+                                <ff:CachedImage x:Name  = "photoselected" 
+                                    LoadingPlaceholder   = "album.png"
+                                
+                                    ErrorPlaceholder     = "Error"
+                                    HeightRequest        = "50"
+                                    CacheDuration        = "30"
+                                    RetryCount           = "3"
+                                    RetryDelay           = "450"             
+                                    Source="{Binding Foto,Converter={StaticResource convertimage}}"
+                                    DownsampleToViewSize = "true">
+
+                                </ff:CachedImage>
+                                <Label Margin="5,8,5,8" Text="{Binding FotoNombre}" TextColor="#354883"/>
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </models:InfiniteListView.ItemTemplate>
+        </models:InfiniteListView>
+        <Button BackgroundColor="#354883" Clicked="finalizarviaje" VerticalOptions="EndAndExpand" Text="Finalizar"/>
+    </StackLayout>
+
+</ContentPage>

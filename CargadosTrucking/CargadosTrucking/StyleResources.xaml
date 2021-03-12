@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:helpers="clr-namespace:CargadosTrucking.Helpers"
+                    mc:Ignorable="d"
+             x:Class="CargadosTrucking.StyleResources">
+    <Color x:Key="blanco">#FFFFFF</Color>
+    <Color x:Key="azul">#336B87</Color>
+    <Color x:Key="autum" >#763626</Color>
+    <Color x:Key="Gris" >#F6F6F6</Color>
+    <Color x:Key="mist" >#90AFC5</Color>
+    <Color x:Key="shadow" >#2A3132</Color>
+    <Color x:Key="disabledtext">#C0C0C0</Color>
+    <Color x:Key="NavigationPrimary">#2196F3</Color>
+    <Color x:Key="colorAccent">#51b0ad</Color>
+    <Color x:Key="orangemain">#FF773D</Color>
+
+    <helpers:BoolConverter x:Key="convertbool" />
+    <helpers:ByteArrayToImageSourceConverter x:Key="convertimage" />
+
+
+    <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+        <Setter Property="BarTextColor" Value="White" />
+    </Style>
+    <Style x:Key="Mainpage" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{StaticResource blanco}" />
+        <Setter Property="NavigationPage.HasNavigationBar" Value="False" />
+        <Setter Property="Visual" Value="Material"/>
+    </Style>
+
+    <Style x:Key="SecondaryPage" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gris}" />
+        <Setter Property="NavigationPage.BarBackgroundColor"  Value="{StaticResource Key=azul}"/>
+        <Setter Property="NavigationPage.BarTextColor"  Value="{StaticResource Key=blanco}"/>
+
+        <Setter Property="NavigationPage.HasNavigationBar" Value="False" />
+
+    </Style>
+    <Style x:Key="InputMain" TargetType="Entry">
+        <Setter Property="PlaceholderColor" Value="{StaticResource orangemain}"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource blanco}"/>
+    </Style>
+    <Style x:Key="buttonlogin" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource azul}" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="VerticalOptions"  Value="Start"/>
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="20" />
+    </Style>
+    <Style x:Key="Textomediano" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource azul}" />
+        <Setter Property="FontSize"  Value="Micro"/>
+    </Style>
+</ResourceDictionary>
