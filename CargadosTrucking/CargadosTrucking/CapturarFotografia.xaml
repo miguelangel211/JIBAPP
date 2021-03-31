@@ -2,15 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:imageeditor="clr-namespace:Syncfusion.SfImageEditor.XForms;assembly=Syncfusion.SfImageEditor.XForms"
              mc:Ignorable="d"
              Style="{StaticResource Mainpage}"
              x:Class="CargadosTrucking.CapturarFotografia">
     <ContentPage.Content>
-        <StackLayout Margin="20,20,20,20">
-            <Label Text="Captura Fotografia" FontSize="Large" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="#191F2D"/>
-            <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20"/>
+        <Grid Margin="20,20,20,20">
+            <Grid.RowDefinitions  >
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="35" />
 
+
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="Asociar Fotografia" FontSize="Large" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="#191F2D"/>
+            <Button Grid.Row="0" HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20"/>
+            <imageeditor:SfImageEditor x:Name="Editorfoto" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="1" Source="{Binding CurrentImage,Converter={StaticResource convertimage}}" >
+                
+            </imageeditor:SfImageEditor>
+
+            <!--
             <ff:CachedImage x:Name  = "photoselected" 
                 LoadingPlaceholder   = "album.png"
                                 
@@ -22,13 +33,13 @@
                 Source="{Binding CurrentImage,Converter={StaticResource convertimage}}"
                 DownsampleToViewSize = "true">
 
-            </ff:CachedImage>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            </ff:CachedImage>-->
+            <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                 <Button BackgroundColor="#354883" Clicked="cerrarforma" VerticalOptions="EndAndExpand" Text="Cancelar"/>
-                <Button BackgroundColor="{StaticResource orangemain}" Clicked="AceptarFoto" VerticalOptions="EndAndExpand" Text="Aceptar"/>
+                <Button BackgroundColor="{StaticResource orangemain}" Clicked="AceptarFoto" VerticalOptions="EndAndExpand" Text="Guardar y asociar"/>
 
             </StackLayout>
 
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

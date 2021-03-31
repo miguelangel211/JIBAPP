@@ -1,4 +1,5 @@
 ﻿using CargadosTrucking.Clases;
+using CargadosTrucking.Helpers;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
@@ -13,7 +14,7 @@ using Xamarin.Forms;
 
 namespace CargadosTrucking.Models
 {
-   public class MainPageViewModel:BaseViewModel
+    public class MainPageViewModel : BaseViewModel
     {
         private string nameuser;
         private bool eventose;
@@ -21,7 +22,7 @@ namespace CargadosTrucking.Models
         public string NombreUsuario { get { return nameuser; } set { nameuser = value; OnPropertyChanged(); } }
 
         private string viajeno;
-        public string Viajenumero { get { return viajeno; } set { viajeno = value;OnPropertyChanged(); } }
+        public string Viajenumero { get { return viajeno; } set { viajeno = value; OnPropertyChanged(); } }
 
         private ObservableCollection<Fototemp> es { get; set; }
         public ObservableCollection<Fototemp> ImagesList { get { return es; } set { es = value; OnPropertyChanged(); } }
@@ -41,6 +42,18 @@ namespace CargadosTrucking.Models
             ImagesList = new ObservableCollection<Fototemp>();
             Eventosexisten = false;
             localNavigation = nav;
+        }
+
+        public async Task<genericresult> enviardatosviaje()
+        {
+            List<Photo> fotografias = new List<Photo>();
+            foreach (var foto in ImagesList)
+            {
+                fotografias.Add(new Photo() { Foto = Convert.ToBase64String(foto.Foto), Name = foto.FotoNombre });
+            }
+
+            return await repoapi.checkin(new DataCarga { Noviaje = Viajenumero.Trim(), Fotografias = fotografias });
+
         }
         public async Task Seleccionarfotosgallery()
         {
@@ -70,11 +83,11 @@ namespace CargadosTrucking.Models
                 return;
             }
 
-       
-                 photo = await MediaPicker.CapturePhotoAsync();
-               var resultfile= await LoadPhotoAsync(photo);
-                Console.WriteLine($"CapturePhotoAsync COMPLETED: {resultfile}");
-       
+
+            photo = await MediaPicker.CapturePhotoAsync();
+            var resultfile = await LoadPhotoAsync(photo);
+            Console.WriteLine($"CapturePhotoAsync COMPLETED: {resultfile}");
+
             if (photo != null)
             {
                 try
@@ -82,8 +95,8 @@ namespace CargadosTrucking.Models
                     var FotoActual = File.ReadAllBytes(resultfile);
                     var newpage = new CapturarFotografia(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() });
                     newpage.EventPass += setimagen;
-                    await localNavigation.PushAsync(newpage); 
-                   // ImagesList.Add(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() }); ;
+                    await localNavigation.PushAsync(newpage);
+                    // ImagesList.Add(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() }); ;
                     //Eventosexisten = true;
                 }
                 catch { }
@@ -92,7 +105,8 @@ namespace CargadosTrucking.Models
 
         }
 
-        public void setimagen(Fototemp data) {
+        public void setimagen(Fototemp data)
+        {
             ImagesList.Add(data);
             Eventosexisten = true;
         }
@@ -103,17 +117,25 @@ namespace CargadosTrucking.Models
             if (photo == null)
             {
                 return null;
-                
+
             }
             // save the file into local storage
-            var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+            var newFile = "";
             using (var stream = await photo.OpenReadAsync())
-            using (var newStream = File.OpenWrite(newFile))
-                await stream.CopyToAsync(newStream);
+                newFile=DependencyService.Get<IMediaService>().SaveImageFromByte(ReadFully(stream), photo.FileName);
 
-           return newFile;
+            return newFile;
+        }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+
+            }
+
         }
     }
-
-    
-}
+        }

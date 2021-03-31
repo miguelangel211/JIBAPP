@@ -26,6 +26,7 @@ namespace CargadosTrucking
             var d = new NavigationPage(new MainPage());
             d.Style = (Style)Xamarin.Forms.Application.Current.Resources["Mainpage"];
             App.Current.MainPage = d;
+            
         }
 
         private void cerrarapp(object sender, EventArgs e)

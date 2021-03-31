@@ -1,4 +1,11 @@
 ﻿using CargadosTrucking.Clases;
+using CargadosTrucking.Helpers;
+using Imaging.Library;
+using Imaging.Library.Entities;
+using Imaging.Library.Enums;
+using Imaging.Library.Filters.BasicFilters;
+using Imaging.Library.Filters.ComplexFilters;
+using Imaging.Library.Maths;
 using Plugin.Media;
 using System;
 using System.Collections.Generic;
@@ -42,10 +49,10 @@ namespace CargadosTrucking.Models
             }
 
 
-            photo = await MediaPicker.CapturePhotoAsync();
+             photo = await MediaPicker.CapturePhotoAsync();
             var resultfile = await LoadPhotoAsync(photo);
             Console.WriteLine($"CapturePhotoAsync COMPLETED: {resultfile}");
-
+            
             if (photo != null)
             {
                 try
@@ -60,11 +67,14 @@ namespace CargadosTrucking.Models
                 }
                 catch { }
             }
+
             IsBusy = false;
 
         }
 
-
+        public void getcurrentimagestorage(string location) {
+            fotolocal.Foto = File.ReadAllBytes(location);
+        }
 
         async Task<string> LoadPhotoAsync(FileResult photo)
         {
@@ -75,13 +85,26 @@ namespace CargadosTrucking.Models
 
             }
             // save the file into local storage
-            var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+            var newFile = "";
             using (var stream = await photo.OpenReadAsync())
-            using (var newStream = File.OpenWrite(newFile))
-                await stream.CopyToAsync(newStream);
+                newFile=DependencyService.Get<IMediaService>().SaveImageFromByte(ReadFully(stream), photo.FileName);
+
 
             return newFile;
         }
 
-    }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+
+            }
+
+        }
+    
+
+}
 }

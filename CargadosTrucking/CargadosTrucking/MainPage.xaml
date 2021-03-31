@@ -24,9 +24,9 @@
                 DownsampleToViewSize = "true">
    
         </ff:CachedImage>
-
+        <Button  BackgroundColor="#354883" HorizontalOptions="Center" ImageSource="gear" Clicked="Button_Clicked"/>
         <Label Text="Captura de viaje" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
-        <Entry Placeholder="# de viaje" Text="{Binding Viajenumero}" Style="{StaticResource InputMain}"></Entry>
+        <Entry Placeholder="# de viaje" Text="{Binding Viajenumero}" Keyboard="Numeric" Style="{StaticResource InputMain}"></Entry>
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
             <Label  Text="Fotografias" TextColor="#354883" FontAttributes="Bold"/>
             <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20"/>
@@ -86,7 +86,7 @@
                 </DataTemplate>
             </models:InfiniteListView.ItemTemplate>
         </models:InfiniteListView>
-        <Button BackgroundColor="#354883" Clicked="finalizarviaje" VerticalOptions="EndAndExpand" Text="Finalizar"/>
+        <Button x:Name="finalizarbutton" BackgroundColor="#354883" Clicked="finalizarviaje" VerticalOptions="EndAndExpand" Text="Finalizar"/>
     </StackLayout>
 
 </ContentPage>

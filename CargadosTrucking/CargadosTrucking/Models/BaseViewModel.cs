@@ -9,7 +9,7 @@ namespace CargadosTrucking.Models
     public class BaseViewModel : INotifyPropertyChanged
     {
 
-
+       public ApiCalls repoapi;
         bool isBusy = false;
         public bool IsBusy
         {
@@ -50,6 +50,7 @@ namespace CargadosTrucking.Models
         #endregion
         public BaseViewModel()
         {
+            repoapi = new ApiCalls();
         }
     }
 }
