@@ -80,6 +80,7 @@
 
                                 </ff:CachedImage>
                                 <Label Margin="5,8,5,8" Text="{Binding FotoNombre}" TextColor="#354883"/>
+                                <Button Text="X" TextColor="White" BackgroundColor="Red" WidthRequest="45" Clicked="removerfoto" HorizontalOptions="EndAndExpand"/>
                             </StackLayout>
                         </Frame>
                     </ViewCell>

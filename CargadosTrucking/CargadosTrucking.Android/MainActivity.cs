@@ -7,12 +7,15 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using FFImageLoading.Forms.Platform;
+using Android.Content;
 
 namespace CargadosTrucking.Droid
 {
     [Activity(Label = "CargadosTrucking", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public static Context Context;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -23,6 +26,7 @@ namespace CargadosTrucking.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
             CachedImageRenderer.Init(true);
+            Context = this.ApplicationContext;
 
             LoadApplication(new App());
         }

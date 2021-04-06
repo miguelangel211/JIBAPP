@@ -55,20 +55,29 @@ namespace CargadosTrucking.Models
             return await repoapi.checkin(new DataCarga { Noviaje = Viajenumero.Trim(), Fotografias = fotografias });
 
         }
+
+        public void removerfoto(Fototemp foto)
+        {
+            ImagesList.Remove(foto);
+        }
         public async Task Seleccionarfotosgallery()
         {
             // FileResult photo = null; ;
 
             var photo = await MediaPicker.PickPhotoAsync();
-            var resultfile = await LoadPhotoAsync(photo);
+            //var resultfile = await LoadPhotoAsync(photo);
             if (photo != null)
             {
                 try
                 {
-                    var FotoActual = File.ReadAllBytes(resultfile);
+                    //var FotoActual = DependencyService.Get<IMediaService>().getimagearray(photo.FullPath);
+                    var FotoActual= File.ReadAllBytes(photo.FullPath);
                     setimagen(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() });
                 }
-                catch { }
+                catch(Exception ex) 
+                { 
+                
+                }
             }
         }
         public async Task tomarfotot()
@@ -92,14 +101,25 @@ namespace CargadosTrucking.Models
             {
                 try
                 {
-                    var FotoActual = File.ReadAllBytes(resultfile);
+                    byte[] FotoActual = null;
+                    //var FotoActual = File.ReadAllBytes(resultfile);
+                    if (resultfile != null)
+                    {
+                        using (var stream = await photo.OpenReadAsync())
+                            FotoActual = ReadFully(stream);
+                    }
+                    
                     var newpage = new CapturarFotografia(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() });
                     newpage.EventPass += setimagen;
                     await localNavigation.PushAsync(newpage);
                     // ImagesList.Add(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() }); ;
                     //Eventosexisten = true;
                 }
-                catch { }
+                catch(Exception ex) 
+                {
+
+
+                }
             }
             IsBusy = false;
 

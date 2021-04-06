@@ -57,12 +57,17 @@ namespace CargadosTrucking.Models
             {
                 try
                 {
-                    var FotoActual = File.ReadAllBytes(resultfile);
-
+                    //byte[] FotoActual = null;
+                    //var FotoActual = File.ReadAllBytes(resultfile);
+                    if (resultfile != null)
+                    {
+                        using (var stream = await photo.OpenReadAsync())
+                            CurrentImage = ReadFully(stream);
+                    }
                     // ImagesList.Add(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() }); ;
                     //Eventosexisten = true;
-                    CurrentImage = FotoActual;
-                    fotolocal.Foto = FotoActual;fotolocal.FotoNombre = photo.FileName;fotolocal.Fecha = DateTime.Now.ToShortDateString();
+                    //CurrentImage = FotoActual;
+                    fotolocal.Foto = CurrentImage;fotolocal.FotoNombre = photo.FileName;fotolocal.Fecha = DateTime.Now.ToShortDateString();
 
                 }
                 catch { }

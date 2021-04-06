@@ -1,8 +1,10 @@
 ﻿using CargadosTrucking.Clases;
+using CargadosTrucking.Helpers;
 using CargadosTrucking.Models;
 using Syncfusion.SfImageEditor.XForms;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,16 +33,39 @@ namespace CargadosTrucking
             base.OnAppearing();
             Editorfoto.ImageSaved += editor_ImageSaved;
             Editorfoto.ImageLoaded += CropEditor_ImageLoaded;
+            Editorfoto.ImageSaving += editor_ImageSaving;
         }
 
         private async void editor_ImageSaved(object sender, ImageSavedEventArgs args)
         {
-            string savedLocation = args.Location;
-            context.getcurrentimagestorage(savedLocation);
-            EventPass(context.fotolocal);
-            await Navigation.PopAsync();
+          //  string savedLocation = args.Location;
+            //context.getcurrentimagestorage(savedLocation);
+          //  EventPass(context.fotolocal);
+            
 
         }
+
+        private async void editor_ImageSaving(object sender,ImageSavingEventArgs args)
+        {
+            args.Cancel = true;
+            var stream = args.Stream;
+            var bytes = ReadFully(stream);
+            string   newFile = DependencyService.Get<IMediaService>().SaveImageFromByte(bytes,"crop_"+context.fotolocal.FotoNombre);
+            EventPass(new Fototemp {Foto=bytes,FotoNombre= "crop_" + context.fotolocal.FotoNombre });
+            await Navigation.PopAsync();
+        }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+
+            }
+
+        }
+
         private void CropEditor_ImageLoaded(object sender, ImageLoadedEventArgs args)
         {
            //var size= Editorfoto.ActualImageRenderedBounds;
@@ -58,8 +83,10 @@ namespace CargadosTrucking
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            context.CurrentImage = null;
             Editorfoto.ImageSaved -= editor_ImageSaved;
             Editorfoto.ImageLoaded -= CropEditor_ImageLoaded;
+            Editorfoto.ImageSaving -= editor_ImageSaving;
 
         }
 
