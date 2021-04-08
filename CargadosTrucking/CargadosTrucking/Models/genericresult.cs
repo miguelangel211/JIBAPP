@@ -9,4 +9,8 @@ namespace CargadosTrucking.Models
         public bool realizado { get; set; }
         public string Errores { get; set; }
     }
+
+    public class genericdatar<T> : genericresult {
+        public List<T> Result { get; set; }
+    }
 }

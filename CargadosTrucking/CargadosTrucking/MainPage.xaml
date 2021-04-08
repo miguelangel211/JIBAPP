@@ -12,7 +12,8 @@
              x:Class="CargadosTrucking.MainPage">
 
     <StackLayout Margin="20,20,20,20">
-        <ff:CachedImage x:Name  = "photoselected" 
+        <Button CornerRadius="40" WidthRequest="60"  BackgroundColor="#354883" Margin="0,0,0,-2" HorizontalOptions="EndAndExpand" ImageSource="gear" Clicked="Button_Clicked"/>
+        <ff:CachedImage x:Name  = "photoselected" Margin="10,-50,10,10" 
                 LoadingPlaceholder   = "album.png"
                                 
                 ErrorPlaceholder     = "Error"
@@ -20,17 +21,23 @@
                 CacheDuration        = "30"
                 RetryCount           = "3"
                 RetryDelay           = "450"             
-                Source="CargaDosLogo"
+                Source="LogoJIB"
                 DownsampleToViewSize = "true">
    
         </ff:CachedImage>
-        <Button  BackgroundColor="#354883" HorizontalOptions="Center" ImageSource="gear" Clicked="Button_Clicked"/>
-        <Label Text="Captura de viaje" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
-        <Entry Placeholder="# de viaje" Text="{Binding Viajenumero}" Keyboard="Numeric" Style="{StaticResource InputMain}"></Entry>
+
+        <Label Text="Trip Information" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
+        <Label Text="V 1.0" HorizontalOptions="EndAndExpand" TextColor="#191F2D"  FontSize="Micro"/>
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-            <Label  Text="Fotografias" TextColor="#354883" FontAttributes="Bold"/>
-            <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20"/>
+            <Entry HorizontalOptions="FillAndExpand"  Margin="0,0,0,0" Placeholder="Trip Number" Text="{Binding Viajenumero}" Keyboard="Numeric" Style="{StaticResource InputMain}"></Entry>
+            <Button Text="..."  HorizontalOptions="End" Command="{Binding CargarTrip}"  CornerRadius="20" Padding="0,0,0,0" Margin="0,0,0,0"  HeightRequest="40" VerticalOptions="End" WidthRequest="50" BackgroundColor="#5aa755"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+            <Label  Text="Driver" TextColor="#354883" FontAttributes="Bold"/>
+            <Label Text="{Binding DriverName}" TextColor="#5aa755"/>
+            <!-- <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20"/>
             <Button HorizontalOptions="End"  ImageSource="image.png" Command="{Binding SeleccionarFoto}" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20" />
+            -->
 
         </StackLayout>
         
@@ -56,7 +63,7 @@
             <ListView.Header>
                 <Frame Padding="0,0,0,0" CornerRadius="20">
                     <StackLayout  BackgroundColor="#354883"  Orientation="Horizontal">
-                    <Label Margin="8,8,5,8" Text="Fotografias agregadas"
+                    <Label Margin="8,8,5,8" Text="Work Orders"
                TextColor="White"
               />
                 </StackLayout>
@@ -65,9 +72,11 @@
             <models:InfiniteListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Frame Padding="0,0,0,0" Margin="0,5,0,5" HasShadow="True" CornerRadius="10">
-                            <StackLayout  BackgroundColor="{StaticResource blanco}"  Orientation="Horizontal">
-                                <ff:CachedImage x:Name  = "photoselected" 
+                        <Frame Padding="0,0,0,0" Margin="0,5,0,5"  HasShadow="True" CornerRadius="10">
+                            
+                            <StackLayout   BackgroundColor="{StaticResource blanco}"  Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
+                                    <!--  <ff:CachedImage x:Name  = "photoselected" 
                                     LoadingPlaceholder   = "album.png"
                                 
                                     ErrorPlaceholder     = "Error"
@@ -78,16 +87,22 @@
                                     Source="{Binding Foto,Converter={StaticResource convertimage}}"
                                     DownsampleToViewSize = "true">
 
-                                </ff:CachedImage>
-                                <Label Margin="5,8,5,8" Text="{Binding FotoNombre}" TextColor="#354883"/>
-                                <Button Text="X" TextColor="White" BackgroundColor="Red" WidthRequest="45" Clicked="removerfoto" HorizontalOptions="EndAndExpand"/>
+                                </ff:CachedImage>-->
+                                <Label Margin="5,8,0,8"  Text="{Binding OrderID}" TextColor="#354883"/>
+                                    <Label Margin="5,8,0,8" Padding="0,0,0,0" FontSize="Small"  TextColor="gray" Text="{Binding WO_Make}"/>
+                                    <Label Margin="0,8,0,8" Padding="0,0,0,0" FontSize="Small"  TextColor="Gray" Text="{Binding WO_Model}"/>
+                                    <Label Margin="0,8,0,8" Padding="0,0,0,0" FontSize="Micro"  TextColor="Gray" Text="{Binding WO_VIN,Converter={d:StaticResource vimhelper}}"/>
+                                    
+                                    <Label Text="{Binding WO_Year}" TextColor="#FF773D" FontSize="Micro"    HorizontalOptions="EndAndExpand"/>
+                                </StackLayout>
                             </StackLayout>
+                            
                         </Frame>
                     </ViewCell>
                 </DataTemplate>
             </models:InfiniteListView.ItemTemplate>
         </models:InfiniteListView>
-        <Button x:Name="finalizarbutton" BackgroundColor="#354883" Clicked="finalizarviaje" VerticalOptions="EndAndExpand" Text="Finalizar"/>
+        <Button x:Name="finalizarbutton" BackgroundColor="#354883" Clicked="finalizarviaje" VerticalOptions="EndAndExpand" Text="Exit"/>
     </StackLayout>
 
 </ContentPage>

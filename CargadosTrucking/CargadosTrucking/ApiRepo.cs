@@ -20,20 +20,20 @@ namespace CargadosTrucking
         public ApiCalls()
         {
             client = new HttpClient();
-
+            client.Timeout = TimeSpan.FromMinutes(4);
            // url2 = "http://datserver.ddns.net:8089/ApiGeoloc/api/";
         }
 
-        public async Task<genericresult> checkin(DataCarga parametro)
+        public async Task<genericresult> checkin(Parametrosimages parametro)
         {
             string Errores = null;
 
             try
             {
-                url2 = await SecureStorage.GetAsync("rutaapi");
+                url2 = await SecureStorage.GetAsync("rutaapiJIB");
                 string json = JsonConvert.SerializeObject(parametro);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                response = await client.PostAsync(string.Concat(url2, "api/FotoUpload/Guardardata"), content);
+                response = await client.PostAsync(string.Concat(url2, "api/WorkOrders/SaveImageneswororder"), content);
                 string r = await response.Content.ReadAsStringAsync();
                 var respuestageneric = JsonConvert.DeserializeObject<genericresult>(r);
                 Errores = respuestageneric.Errores;
@@ -92,6 +92,48 @@ namespace CargadosTrucking
                 catch (Exception ex)
                 {
                     var r = new genericresult() { realizado = false };
+                    r.realizado = false;
+                    if (!string.IsNullOrEmpty(Errores))
+                    {
+                        r.Errores = Errores;
+                    }
+                    else
+                    {
+                        r.Errores = "No se pudo establecer una conexion";
+                    }
+                    return await Task.FromResult(r);
+                }
+            
+        }        
+        
+        internal async Task<genericdatar<PgetWorkordersJibapp_Result>>  GetWorkOPrder(int tripid)
+        {
+    
+                string Errores = null;
+                try
+                {
+                url2 = await SecureStorage.GetAsync("rutaapiJIB");
+
+                builder = new UriBuilder(string.Concat(url2, "api/WorkOrders/GetWorkOrders?tripid=" + tripid));
+                    //builder.Port = -1;
+                    string urlbuild = builder.ToString();
+                    response = await client.GetAsync(urlbuild);
+                    if (response.IsSuccessStatusCode)
+                {
+                    string r = await response.Content.ReadAsStringAsync();
+
+                    return await Task.FromResult(JsonConvert.DeserializeObject<genericdatar<PgetWorkordersJibapp_Result>>(r));
+                    }
+                    else
+                    {
+                        return await Task.FromResult(new genericdatar<PgetWorkordersJibapp_Result> { realizado = false, Errores = "Couldn't connect to api" });
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    var r =  new genericdatar<PgetWorkordersJibapp_Result> { realizado = false };
                     r.realizado = false;
                     if (!string.IsNullOrEmpty(Errores))
                     {

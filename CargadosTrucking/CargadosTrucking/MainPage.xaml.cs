@@ -37,43 +37,24 @@ namespace CargadosTrucking
         private void tappedservice(object sender, ItemTappedEventArgs e)
         {
 
+            Navigation.PushModalAsync(new CapturarFotografia(((PgetWorkordersJibapp_Result)e.Item)));
         }
 
 
         private async void checkifapialreadyset() {
-          string apivalue =   await SecureStorage.GetAsync("rutaapi");
+          string apivalue =   await SecureStorage.GetAsync("rutaapiJIB");
             if (string.IsNullOrWhiteSpace(apivalue))
-                await SecureStorage.SetAsync("rutaapi", "http://cargados.ddns.net/CargadosApi/");
+                await SecureStorage.SetAsync("rutaapiJIB", "http://datserver.ddns.net:8089/JIBUnitedapi/");
             
 
         }
 
 
-        private async void finalizarviaje(object sender, EventArgs e)
+        private  void finalizarviaje(object sender, EventArgs e)
         {
 
-            if (string.IsNullOrWhiteSpace(Context.Viajenumero))
-            {
-                await DisplayAlert("No se pudo registrar viaje", "Ingrese un numero de viaje", "OK");
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
 
-            }
-            else
-            {
-                finalizarbutton.Text = "Guardando";
-                finalizarbutton.IsEnabled = false;
-                var resultado= await  Context.enviardatosviaje();
-                if (resultado.realizado)
-                {
-                    finalizarbutton.Text = "Finalizar";
-                    finalizarbutton.IsEnabled = true;
-                    await Navigation.PushAsync(new Confirmacion(Context.Viajenumero));
-                }
-                else{
-                    await DisplayAlert("No se pudo registrar viaje", resultado.Errores, "OK");
-                    finalizarbutton.Text = "Finalizar";
-                    finalizarbutton.IsEnabled = true;
-                }
-            }
         }
 
         private async void Button_Clicked(object sender, EventArgs e)

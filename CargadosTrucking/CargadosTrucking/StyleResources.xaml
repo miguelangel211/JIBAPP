@@ -18,6 +18,7 @@
 
     <helpers:BoolConverter x:Key="convertbool" />
     <helpers:ByteArrayToImageSourceConverter x:Key="convertimage" />
+    <helpers:VimHelper x:Key="vimhelper" />
 
 
     <Style TargetType="NavigationPage">

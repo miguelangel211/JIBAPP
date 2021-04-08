@@ -23,9 +23,9 @@ namespace CargadosTrucking
         {
             base.OnAppearing();
 
-            var urlapibase = await SecureStorage.GetAsync("rutaapi");
+            var urlapibase = await SecureStorage.GetAsync("rutaapiJIB");
             if (urlapibase == "" || urlapibase == null)
-                urlapibase = "http://cargados.ddns.net/CargadosApi/";
+                urlapibase = "http://datserver.ddns.net:8089/JIBUnitedapi/";
             rutaapi.Text = urlapibase;
 
         }
@@ -34,9 +34,9 @@ namespace CargadosTrucking
 
         async void clickonchangerutaapi(object senser, EventArgs args)
         {
-            if (passw.Text == "cargados123456")
+            if (passw.Text == "jibunited123456")
             {
-                await SecureStorage.SetAsync("rutaapi", rutaapi.Text.Trim());
+                await SecureStorage.SetAsync("rutaapiJIB", rutaapi.Text.Trim());
                 await DisplayAlert("Api", "Ruta api guardada: ", "OK");
             }
             else {

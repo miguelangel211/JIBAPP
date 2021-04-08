@@ -8,10 +8,11 @@ using Android.Widget;
 using Android.OS;
 using FFImageLoading.Forms.Platform;
 using Android.Content;
+using JIB.Droid;
 
 namespace CargadosTrucking.Droid
 {
-    [Activity(Label = "CargadosTrucking", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "JIBUnited", Icon = "@drawable/LogoJIB", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public static Context Context;
@@ -22,6 +23,8 @@ namespace CargadosTrucking.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+            XF.Material.Droid.Material.Init(this, savedInstanceState);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);

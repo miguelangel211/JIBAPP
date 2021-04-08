@@ -20,27 +20,22 @@ namespace CargadosTrucking
         CapturarFotografiaModel context;
         public delegate void EventHandler(Fototemp status);
         public event EventHandler EventPass;
-        public CapturarFotografia(Fototemp fotoriginal)
+        public CapturarFotografia(PgetWorkordersJibapp_Result trip)
         {
             InitializeComponent();
-            this.BindingContext = context = new CapturarFotografiaModel(fotoriginal);
-            Editorfoto.SetToolbarItemVisibility("effects,shape,text,path,save", false);
+            this.BindingContext = context = new CapturarFotografiaModel(trip);
 
 
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Editorfoto.ImageSaved += editor_ImageSaved;
-            Editorfoto.ImageLoaded += CropEditor_ImageLoaded;
-            Editorfoto.ImageSaving += editor_ImageSaving;
+     
         }
 
         private async void editor_ImageSaved(object sender, ImageSavedEventArgs args)
         {
-          //  string savedLocation = args.Location;
-            //context.getcurrentimagestorage(savedLocation);
-          //  EventPass(context.fotolocal);
+
             
 
         }
@@ -68,11 +63,7 @@ namespace CargadosTrucking
 
         private void CropEditor_ImageLoaded(object sender, ImageLoadedEventArgs args)
         {
-           //var size= Editorfoto.ActualImageRenderedBounds;
-          // var foto= (Editorfoto.Source as BitmapSource);
-            //if()
-            Editorfoto.Rotate();
-            Editorfoto.ToggleCropping(true, 0);
+
 
         }
 
@@ -84,18 +75,26 @@ namespace CargadosTrucking
         {
             base.OnDisappearing();
             context.CurrentImage = null;
-            Editorfoto.ImageSaved -= editor_ImageSaved;
-            Editorfoto.ImageLoaded -= CropEditor_ImageLoaded;
-            Editorfoto.ImageSaving -= editor_ImageSaving;
+
 
         }
 
         private void AceptarFoto(object sender, EventArgs e)
         {
-            Editorfoto.Crop();
 
-            Editorfoto.Save();
        
+        }
+
+        private async void finalizartrip(object sender, EventArgs e)
+        {
+           await context.cargardatatrip(Navigation);
+           
+        }
+
+        private void removerfoto(object sender, EventArgs e)
+        {
+            context.removerfoto((Fototemp)((Button)sender).BindingContext);
+
         }
     }
 }

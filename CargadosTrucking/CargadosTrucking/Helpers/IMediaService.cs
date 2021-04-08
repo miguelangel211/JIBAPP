@@ -8,5 +8,7 @@ namespace CargadosTrucking.Helpers
     {
         string SaveImageFromByte(byte[] imageByte, string filename);
         byte[] getimagearray(string urloriginal);
+
+        byte[] reziseImage(byte[] Image);
     }
 }

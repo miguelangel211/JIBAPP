@@ -170,5 +170,18 @@ namespace CargadosTrucking.Droid
 
             return bitmap;
         }
+
+        public byte[] reziseImage(byte[] Image)
+        {
+            var bit = bytesToBitmap(Image);
+           // Bitmap bitmap = Bitmap.CreateScaledBitmap(bit,bit.Height/2 ,bit.Width/2,false);
+            using (var stream = new MemoryStream())
+            {
+                bit.Compress(Bitmap.CompressFormat.Jpeg, 30, stream);
+                return stream.ToArray();
+            }
+
+           
+        }
     }
 }
