@@ -8,7 +8,9 @@ namespace CargadosTrucking.Clases
     {
         public string FotoNombre { get; set; }
         public byte[] Foto { get; set; }
-        public  string Fecha { get; set; }
-      
+        public string Fecha { get; set; }
+        public string Comentario { get; set; }
+
+
     }
 }

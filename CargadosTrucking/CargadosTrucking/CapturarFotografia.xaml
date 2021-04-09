@@ -71,8 +71,8 @@
                     <DataTemplate>
                         <ViewCell>
                             <Frame Padding="0,0,0,0" Margin="0,5,0,5"  HasShadow="True" CornerRadius="10">
-
-                                <StackLayout  BackgroundColor="{StaticResource blanco}"  Orientation="Horizontal">
+                                <StackLayout>
+                                    <StackLayout  BackgroundColor="{StaticResource blanco}"  Orientation="Horizontal">
                                     <ff:CachedImage HorizontalOptions="CenterAndExpand" x:Name  = "photoselected" 
                                     LoadingPlaceholder   = "album.png"
                                 
@@ -88,7 +88,9 @@
                                    <!--- <Label Margin="5,8,5,8" Text="{Binding FotoNombre}" TextColor="#354883"/>-->
                                     <Button Text="X" TextColor="White" BackgroundColor="Red" WidthRequest="45" HeightRequest="45" VerticalOptions="StartAndExpand" Clicked="removerfoto" HorizontalOptions="EndAndExpand"/>
                                 </StackLayout>
+                                    <Label  Margin="5,8,5,8"  BackgroundColor="Transparent" Text="{Binding Comentario}" TextColor="#354883"/>
 
+                                </StackLayout>
                             </Frame>
                         </ViewCell>
                     </DataTemplate>

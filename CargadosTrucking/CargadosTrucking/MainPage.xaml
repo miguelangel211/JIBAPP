@@ -27,7 +27,7 @@
         </ff:CachedImage>
 
         <Label Text="Trip Information" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
-        <Label Text="V 1.0" HorizontalOptions="EndAndExpand" TextColor="#191F2D"  FontSize="Micro"/>
+        <Label Text="V 1.11" HorizontalOptions="EndAndExpand" TextColor="#191F2D"  FontSize="Micro"/>
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
             <Entry HorizontalOptions="FillAndExpand"  Margin="0,0,0,0" Placeholder="Trip Number" Text="{Binding Viajenumero}" Keyboard="Numeric" Style="{StaticResource InputMain}"></Entry>
             <Button Text="..."  HorizontalOptions="End" Command="{Binding CargarTrip}"  CornerRadius="20" Padding="0,0,0,0" Margin="0,0,0,0"  HeightRequest="40" VerticalOptions="End" WidthRequest="50" BackgroundColor="#5aa755"/>

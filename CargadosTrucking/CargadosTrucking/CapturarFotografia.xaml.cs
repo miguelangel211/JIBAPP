@@ -23,7 +23,7 @@ namespace CargadosTrucking
         public CapturarFotografia(PgetWorkordersJibapp_Result trip)
         {
             InitializeComponent();
-            this.BindingContext = context = new CapturarFotografiaModel(trip);
+            this.BindingContext = context = new CapturarFotografiaModel(trip,Navigation);
 
 
         }

@@ -13,11 +13,13 @@ namespace CargadosTrucking.Models
     {
         public string Name { get; set; }
         public string Foto { get; set; }
+        public string Comentario { get; set; }
     }
     public class Parametrosimages
     {
         public List<Photo> Imagenes { get; set; }
         public int Tripid { get; set; }
         public int OrderID { get; set; }
+        public string DriverName { get; set; }
     }
 }

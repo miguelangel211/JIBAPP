@@ -49,7 +49,9 @@ namespace CargadosTrucking.Models
         public string VIM { get { return vim; } set { vim = value; OnPropertyChanged(); } }
         private bool eventose;
         public bool Eventosexisten { get { return eventose; } set { eventose = value; OnPropertyChanged(); } }
-        public CapturarFotografiaModel(PgetWorkordersJibapp_Result trip) {
+        INavigation Navigationl;
+        public CapturarFotografiaModel(PgetWorkordersJibapp_Result trip,INavigation nav) {
+            Navigationl = nav;
             Trip = trip;
             DriverName = trip.DriverName;
             TripId = trip.TripID.ToString();
@@ -71,9 +73,9 @@ namespace CargadosTrucking.Models
                 List<Photo> imagens = new List<Photo>();
 
                 foreach(var f in ImagesList){ 
-                imagens.Add(new Photo { Foto= Convert.ToBase64String(f.Foto),Name=f.FotoNombre });
+                imagens.Add(new Photo { Foto= Convert.ToBase64String(f.Foto),Name=f.FotoNombre,Comentario=f.Comentario });
                 }
-                llamada = await repoapi.checkin(new Parametrosimages {OrderID=Trip.OrderID,Tripid=Trip.TripID,Imagenes=imagens });
+                llamada = await repoapi.checkin(new Parametrosimages {OrderID=Trip.OrderID,Tripid=Trip.TripID,Imagenes=imagens,DriverName=DriverName });
             }
 
             if (llamada.realizado)
@@ -119,15 +121,15 @@ namespace CargadosTrucking.Models
 
                     using (var stream = await photo.OpenReadAsync())
                         CurrentImage = DependencyService.Get<IMediaService>().reziseImage(ReadFully(stream));
-
-                    ImagesList.Add(new Fototemp { Foto=CurrentImage, FotoNombre= photo.FileName});
+                    var newpage = new Editarfotografia(new Fototemp { Foto = CurrentImage, FotoNombre = photo.FileName });
+                    newpage.EventPass += setimagen;
+                    await  Navigationl.PushModalAsync(newpage); ;
+                 //   ImagesList.Add();
                 }
                 catch {
                   
                 }
             }
-            if (ImagesList.Count > 0)
-                Eventosexisten = true;
 
             IsBusy = false;
 
@@ -141,6 +143,12 @@ namespace CargadosTrucking.Models
         public void removerfoto(Fototemp foto)
         {
             ImagesList.Remove(foto);
+        }
+
+        public void setimagen(Fototemp data)
+        {
+            ImagesList.Add(data);
+            Eventosexisten = true;
         }
         public static byte[] ReadFully(Stream input)
         {
