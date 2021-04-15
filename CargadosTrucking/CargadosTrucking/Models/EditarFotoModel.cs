@@ -28,6 +28,7 @@ namespace CargadosTrucking.Models
         {
             fotolocal = data;
             CurrentImage = fotolocal.Foto;
+            Comments = fotolocal.Comentario;
             TomarFoto = new Command(async () => await tomarfotot());
         }
 

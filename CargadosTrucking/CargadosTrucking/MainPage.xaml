@@ -22,12 +22,13 @@
                 RetryCount           = "3"
                 RetryDelay           = "450"             
                 Source="LogoJIB"
-                DownsampleToViewSize = "true">
+                DownsampleToViewSize = "true"
+                HorizontalOptions="Center"        >
    
         </ff:CachedImage>
 
         <Label Text="Trip Information" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
-        <Label Text="V 1.11" HorizontalOptions="EndAndExpand" TextColor="#191F2D"  FontSize="Micro"/>
+        <Label Text="V 1.13" HorizontalOptions="EndAndExpand" TextColor="#191F2D"  FontSize="Micro"/>
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
             <Entry HorizontalOptions="FillAndExpand"  Margin="0,0,0,0" Placeholder="Trip Number" Text="{Binding Viajenumero}" Keyboard="Numeric" Style="{StaticResource InputMain}"></Entry>
             <Button Text="..."  HorizontalOptions="End" Command="{Binding CargarTrip}"  CornerRadius="20" Padding="0,0,0,0" Margin="0,0,0,0"  HeightRequest="40" VerticalOptions="End" WidthRequest="50" BackgroundColor="#5aa755"/>
@@ -74,7 +75,7 @@
                     <ViewCell>
                         <Frame Padding="0,0,0,0" Margin="0,5,0,5"  HasShadow="True" CornerRadius="10">
                             
-                            <StackLayout   BackgroundColor="{StaticResource blanco}"  Orientation="Vertical">
+                            <StackLayout   BackgroundColor="{Binding fotos,Converter={d:StaticResource photoexistsview}}"  Orientation="Vertical">
                                 <StackLayout Orientation="Horizontal">
                                     <!--  <ff:CachedImage x:Name  = "photoselected" 
                                     LoadingPlaceholder   = "album.png"
@@ -88,12 +89,20 @@
                                     DownsampleToViewSize = "true">
 
                                 </ff:CachedImage>-->
-                                <Label Margin="5,8,0,8"  Text="{Binding OrderID}" TextColor="#354883"/>
+                                     <Label Margin="5,8,0,8"  Text="{Binding OrderID}" TextColor="#354883"/>
                                     <Label Margin="5,8,0,8" Padding="0,0,0,0" FontSize="Small"  TextColor="gray" Text="{Binding WO_Make}"/>
                                     <Label Margin="0,8,0,8" Padding="0,0,0,0" FontSize="Small"  TextColor="Gray" Text="{Binding WO_Model}"/>
                                     <Label Margin="0,8,0,8" Padding="0,0,0,0" FontSize="Micro"  TextColor="Gray" Text="{Binding WO_VIN,Converter={d:StaticResource vimhelper}}"/>
-                                    
-                                    <Label Text="{Binding WO_Year}" TextColor="#FF773D" FontSize="Micro"    HorizontalOptions="EndAndExpand"/>
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="EndAndExpand">
+                                        <Label Text="{Binding WO_Year}" TextColor="#FF773D" FontSize="Micro"    VerticalOptions="Start"/>
+                                        <StackLayout VerticalOptions="EndAndExpand" Orientation="Horizontal">
+                                            <Label Text="{Binding fotos}" TextColor="#5aa755" FontSize="Micro" HorizontalOptions="Start"   />
+
+                                            <Label Text="P" TextColor="#5aa755" FontSize="Micro" HorizontalOptions="Start"   />
+
+
+                                        </StackLayout>
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
                             

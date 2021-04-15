@@ -31,12 +31,13 @@
                 <StackLayout Orientation="Horizontal">
                     <ActivityIndicator x:Name="probando" HorizontalOptions="CenterAndExpand" Color="{StaticResource azul}" />
 
-                    <Button Text="Probar" WidthRequest="150" CornerRadius="20" Clicked="Button_Clicked" BackgroundColor="{StaticResource azul}" TextColor="White" HorizontalOptions="EndAndExpand"/>
+                    <Button Text="Test" WidthRequest="150" CornerRadius="20" Clicked="Button_Clicked" BackgroundColor="{StaticResource azul}" TextColor="White" HorizontalOptions="EndAndExpand"/>
                 </StackLayout>
             </StackLayout>
-            <Button Text="Guardar api" Clicked="clickonchangerutaapi"/>
+            <Button Text="Save Api route" Clicked="clickonchangerutaapi"/>
 
-            <Button Text="Cerrar" BackgroundColor="{StaticResource azul}" HorizontalOptions="FillAndExpand" TextColor="White"  Clicked="cerrarclicked"/>
+            <Button Text="close" BackgroundColor="{StaticResource azul}" HorizontalOptions="FillAndExpand" TextColor="White"  Clicked="cerrarclicked"/>
+            <Button Text="Close session" BackgroundColor="{StaticResource orangemain}" Margin="0,50,0,0" HorizontalOptions="FillAndExpand" TextColor="White"  Clicked="cerrarsesion"/>
 
         </StackLayout>
     </ContentPage.Content>

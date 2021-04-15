@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,30 +20,44 @@ namespace CargadosTrucking
         EditarFotoModel context;
         public delegate void EventHandler(Fototemp status);
         public event EventHandler EventPass;
-        
-        public Editarfotografia(Fototemp fotoriginal)
+        bool Isedit;
+        public Editarfotografia(Fototemp fotoriginal,bool isediting=false)
         {
             InitializeComponent();
+            Isedit = isediting;
             this.BindingContext = context = new EditarFotoModel(fotoriginal);
-            Editorfoto.SetToolbarItemVisibility("effects,shape,text,path,save", false);
 
+            Editorfoto.ToolbarSettings.ToolbarItemSelected += ToolbarSettings_ToolbarItemSelected;
+            Editorfoto.ToolbarSettings.IsVisible = false;
 
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Editorfoto.ImageSaved += editor_ImageSaved;
+           
             Editorfoto.ImageLoaded += CropEditor_ImageLoaded;
             Editorfoto.ImageSaving += editor_ImageSaving;
         }
 
-        private async void editor_ImageSaved(object sender, ImageSavedEventArgs args)
+ 
+               
+  
+
+        private void ToolbarSettings_ToolbarItemSelected(object sender, ToolbarItemSelectedEventArgs e)
         {
-            //  string savedLocation = args.Location;
-            //context.getcurrentimagestorage(savedLocation);
-            //  EventPass(context.fotolocal);
-
-
+            if (e.ToolbarItem.Text == "crop")
+            {
+                Editorfoto.ToggleCropping(true, 0);
+                croppedcontrols.IsVisible = true;
+            }
+            if (e.ToolbarItem.Text == "rotate")
+            {
+                Editorfoto.Rotate();
+            }            
+            if (e.ToolbarItem.Text == "photo")
+            {
+                context.TomarFoto.Execute(null);
+            }
         }
 
         private async void editor_ImageSaving(object sender, ImageSavingEventArgs args)
@@ -54,13 +68,14 @@ namespace CargadosTrucking
             try
             {
                 bytes = DependencyService.Get<IMediaService>().reziseImage(bytes);
-                //  string newFile = DependencyService.Get<IMediaService>().SaveImageFromByte(bytes, "crop_" + context.fotolocal.FotoNombre);
             }
             catch (Exception ex)
             {
 
             }
-            EventPass(new Fototemp { Foto = bytes, FotoNombre = "crop_" + context.fotolocal.FotoNombre,Comentario= context.Comments });
+            var location = await Geolocation.GetLastKnownLocationAsync();
+            
+            EventPass(new Fototemp { Foto = bytes, FotoNombre =  context.fotolocal.FotoNombre,Comentario= context.Comments,lat=location.Latitude.ToString(),@long=location.Longitude.ToString() });
             await Navigation.PopModalAsync();
         }
 
@@ -77,23 +92,21 @@ namespace CargadosTrucking
 
         private void CropEditor_ImageLoaded(object sender, ImageLoadedEventArgs args)
         {
-            //var size= Editorfoto.ActualImageRenderedBounds;
-            // var foto= (Editorfoto.Source as BitmapSource);
-            //if()
+            if (Isedit) {
+                Isedit = false;
+                return;
+            }
             Editorfoto.Rotate();
-            Editorfoto.ToggleCropping(true, 0);
-
         }
 
         private async void cerrarforma(object sender, EventArgs e)
         {
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             context.CurrentImage = null;
-            Editorfoto.ImageSaved -= editor_ImageSaved;
             Editorfoto.ImageLoaded -= CropEditor_ImageLoaded;
             Editorfoto.ImageSaving -= editor_ImageSaving;
 
@@ -104,6 +117,38 @@ namespace CargadosTrucking
             Editorfoto.Crop();
 
             Editorfoto.Save();
+
+        }
+
+        private void cerrarcrop(object sender, EventArgs e)
+        {
+            Editorfoto.ToggleCropping(false);
+            croppedcontrols.IsVisible = false;
+            toolscopntrols.IsVisible = true;
+
+        }
+
+        private void guardarcrop(object sender, EventArgs e)
+        {
+            Editorfoto.Crop();
+            Editorfoto.ToggleCropping(false);
+            Editorfoto.Crop();
+            croppedcontrols.IsVisible = false;
+            toolscopntrols.IsVisible = true;
+
+        }
+
+        private void rotatebutton(object sender, EventArgs e)
+        {
+            Editorfoto.Rotate();
+
+        }
+
+        private void cropbutton(object sender, EventArgs e)
+        {
+            Editorfoto.ToggleCropping(true, 0);
+            croppedcontrols.IsVisible = true;
+            toolscopntrols.IsVisible = false;
 
         }
     }

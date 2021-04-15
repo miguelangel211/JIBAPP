@@ -33,14 +33,22 @@ namespace CargadosTrucking
           this.BindingContext=  Context = new MainPageViewModel(Navigation);
         }
 
-
-        private void tappedservice(object sender, ItemTappedEventArgs e)
+        protected async override void OnAppearing()
         {
-
-            Navigation.PushModalAsync(new CapturarFotografia(((PgetWorkordersJibapp_Result)e.Item)));
+            base.OnAppearing();
+        //  await  Context.actualizarviajedata();
+        }
+        private async void tappedservice(object sender, ItemTappedEventArgs e)
+        {
+            var tempage = new CapturarFotografia(((PgetWorkordersJibapp_Result)e.Item));
+            tempage.EventPass += updatedata;
+            await Navigation.PushModalAsync(tempage);
         }
 
-
+        public async void updatedata()
+        {
+          await  Context.actualizarviajedata();
+        }
         private async void checkifapialreadyset() {
           string apivalue =   await SecureStorage.GetAsync("rutaapiJIB");
             if (string.IsNullOrWhiteSpace(apivalue))
@@ -68,90 +76,7 @@ namespace CargadosTrucking
             Context.removerfoto((Fototemp)((Button)sender).BindingContext);
 
         }
-        /*
-private async void GetPixelMapFromGallery()
-{
-   if (!CrossMedia.Current.IsPickPhotoSupported)
-   {
-       await DisplayAlert("Photos Not Supported", ":( Permission not granted to photos.", "OK");
-       return;
-   }
-   var file = await CrossMedia.Current.PickPhotoAsync();
+     
 
-   if (file == null)
-       return;
-
-   switch (Device.RuntimePlatform)
-   {
-       case Device.Android:
-           Source = AndroidHelper.GetPixelMap(file.GetStream());
-           break;
-
-
-
-   }
-
-   imagenfinaldeescanner.Source = LoadFromPixel(Source);
-}
-
-private void tomarfoto(object sender, EventArgs e)
-{
- //  PixelMap Source = new PixelMap(160, 150);
-
-   var imaging = new ImagingManager(Source);
-   var scale = 0.4;
-   //source is PixelMap, you can find samples how to convert image to PixelMap
-   imaging.AddFilter(new BicubicFilter(scale));    //Downscaling
-   imaging.AddFilter(new CannyEdgeDetector());     //This filter contains Grayscale and Gaussian filter in it
-   imaging.Render();                               //Renders the image to use it further use
-
-   var blobCounter = new BlobCounter()
-   {
-       ObjectsOrder = ObjectsOrder.Size
-   };
-   imaging.AddFilter(blobCounter);
-
-   imaging.Render();
-
-   //Following code finds largest quadratical blob
-   List<Imaging.Library.Entities.Point> corners = null;
-   var blobs = blobCounter.GetObjectsInformation();
-   foreach (var blob in blobs)
-   {
-       var points = blobCounter.GetBlobsEdgePoints(blob);
-
-       var shapeChecker = new SimpleShapeChecker();
-
-       if (shapeChecker.IsQuadrilateral(points, out corners))
-           break;
-   }
-
-   imaging.UndoAll();                              //Undo every filters applied
-
-   var edgePoints = new EdgePoints();
-   edgePoints.SetPoints(corners.ToArray());
-   edgePoints = edgePoints.ZoomIn(scale);          //Corrects points that found on downscaled image to original
-   imaging.AddFilter(new QuadrilateralTransformation(edgePoints, true));
-
-   imaging.Render();
-
-   imagenfinaldeescanner.Source = LoadFromPixel(imaging.Output);
-
-}
-
-
-private ImageSource LoadFromPixel(PixelMap pixelMap)
-{
-   switch (Device.RuntimePlatform)
-   {
-       case Device.Android:
-           return AndroidHelper.LoadImageFromPixelMap(pixelMap);
-
-
-
-       default:
-           return null;
-   }
-}*/
     }
 }

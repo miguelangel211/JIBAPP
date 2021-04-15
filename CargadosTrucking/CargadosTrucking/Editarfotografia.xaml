@@ -6,26 +6,37 @@
              mc:Ignorable="d"
              x:Class="CargadosTrucking.Editarfotografia">
     <ContentPage.Content>
-        <Grid Margin="20,20,20,20">
+        
+        <Grid Margin="8,5,8,20" >
             <Grid.RowDefinitions  >
-                <RowDefinition Height="45" />
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="45" />
+        
                 <RowDefinition Height="35" />
 
 
             </Grid.RowDefinitions>
-            <Entry Grid.Row="0" Margin="0,0,15,0" Placeholder="Comentario" HorizontalOptions="FillAndExpand"    Text="{Binding Comments}"  Style="{StaticResource InputMain}"/>
-
-            <Button Grid.Row="0" HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="50" HeightRequest="50" BorderRadius="20"/>
-            <imageeditor:SfImageEditor x:Name="Editorfoto" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="1" Source="{Binding CurrentImage,Converter={StaticResource convertimage}}" >
+            <StackLayout x:Name="toolscopntrols" IsVisible="true" Margin="40,5,40,5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Grid.Row="0">
+                <Button  HorizontalOptions="StartAndExpand" VerticalOptions="Center" ImageSource="crop.png" FontAttributes="Bold"  FontSize="Micro" TextColor="White" BackgroundColor="White" WidthRequest="30" Clicked="cropbutton"  />
+                <Button  HorizontalOptions="CenterAndExpand" VerticalOptions="Center"  ImageSource="rotateright"  FontAttributes="Bold" FontSize="Micro" TextColor="White"  BackgroundColor="White"  WidthRequest="30" Clicked="rotatebutton"  />
+                <Button  HorizontalOptions="EndAndExpand" VerticalOptions="Center" ImageSource="camerachange.png"  FontAttributes="Bold" FontSize="Micro" TextColor="White"  BackgroundColor="White" WidthRequest="30"  Command="{Binding TomarFoto}"  />
+            </StackLayout>
+            <StackLayout x:Name="croppedcontrols" IsVisible="false" Margin="40,5,40,5" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Grid.Row="0">
+                <Button  HorizontalOptions="StartAndExpand"  Text="X" FontAttributes="Bold"  FontSize="Micro" TextColor="White" BackgroundColor="#354883" WidthRequest="30" Clicked="cerrarcrop" HeightRequest="30" BorderRadius="15"/>
+                <Label Text="Crop" HorizontalOptions="CenterAndExpand" TextColor="Black" VerticalOptions="CenterAndExpand" />
+                <Button  HorizontalOptions="EndAndExpand" Text="&#x2713;" FontAttributes="Bold" FontSize="Micro" TextColor="White"  BackgroundColor="#5aa755" WidthRequest="30" Clicked="guardarcrop" HeightRequest="30" BorderRadius="15"/>
+            </StackLayout>
+            <imageeditor:SfImageEditor  x:Name="Editorfoto" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="1" Source="{Binding CurrentImage,Converter={StaticResource convertimage}}" >
 
             </imageeditor:SfImageEditor>
 
 
+            <Entry Grid.Row="2" Margin="0,0,15,0" Placeholder="Comments" HorizontalOptions="FillAndExpand"    Text="{Binding Comments}"  Style="{StaticResource InputMain}"/>
 
-            <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Button BackgroundColor="#354883" TextColor="White" Clicked="cerrarforma" VerticalOptions="EndAndExpand" Text="Cancelar"/>
-                <Button BackgroundColor="{StaticResource orangemain}" TextColor="White" Clicked="AceptarFoto" VerticalOptions="EndAndExpand" Text="Guardar y asociar"/>
+            <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Button BackgroundColor="#354883" TextColor="White" Clicked="cerrarforma" HorizontalOptions="FillAndExpand" CornerRadius="8" VerticalOptions="StartAndExpand" Text="Cancel"/>
+                <Button BackgroundColor="#5aa755" TextColor="White" Clicked="AceptarFoto" HorizontalOptions="FillAndExpand" CornerRadius="8" VerticalOptions="EndAndExpand" Text="Save"/>
 
             </StackLayout>
 

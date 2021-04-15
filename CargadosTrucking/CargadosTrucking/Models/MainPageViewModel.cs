@@ -83,34 +83,41 @@ namespace CargadosTrucking.Models
             IsBusy = false;
         }
 
+        public async Task actualizarviajedata() {
+            if (string.IsNullOrWhiteSpace(Viajenumero))
+                return;
+            var   llamada = await repoapi.GetWorkOPrder(int.Parse(Viajenumero??"0"));
+        
+         
+            if (llamada.realizado)
+            {
+                ImagesList = new ObservableCollection<PgetWorkordersJibapp_Result>(llamada.Result);
+                DriverName = llamada.Result[0].DriverName;
+                Eventosexisten = true;
+            }
+            else {
+
+              await mensajetoast(llamada.Errores);
+            }
+        }
+
         public async Task<genericresult> enviardatosviaje()
         {
-            /* List<Photo> fotografias = new List<Photo>();
-             foreach (var foto in ImagesList)
-             {
-                 fotografias.Add(new Photo() { Foto = Convert.ToBase64String(foto.Foto), Name = foto.FotoNombre });
-             }
 
-             return await repoapi.checkin(new DataCarga { Noviaje = Viajenumero.Trim(), Fotografias = fotografias });
-            */
             return new genericresult();
         }
 
         public void removerfoto(Fototemp foto)
         {
-            //ImagesList.Remove(foto);
         }
         public async Task Seleccionarfotosgallery()
         {
-            // FileResult photo = null; ;
 
             var photo = await MediaPicker.PickPhotoAsync();
-            //var resultfile = await LoadPhotoAsync(photo);
             if (photo != null)
             {
                 try
                 {
-                    //var FotoActual = DependencyService.Get<IMediaService>().getimagearray(photo.FullPath);
                     var FotoActual= File.ReadAllBytes(photo.FullPath);
                     setimagen(new Fototemp { FotoNombre = photo.FileName, Foto = FotoActual, Fecha = DateTime.Now.ToShortDateString() });
                 }

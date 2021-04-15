@@ -14,6 +14,9 @@ namespace CargadosTrucking.Models
         public string Name { get; set; }
         public string Foto { get; set; }
         public string Comentario { get; set; }
+        public string lat { get; set; }
+        public string @long { get; set; }
+        public string CityZip { get; set; }
     }
     public class Parametrosimages
     {

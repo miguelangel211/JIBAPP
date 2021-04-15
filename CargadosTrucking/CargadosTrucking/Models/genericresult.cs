@@ -12,5 +12,8 @@ namespace CargadosTrucking.Models
 
     public class genericdatar<T> : genericresult {
         public List<T> Result { get; set; }
+    }    
+    public class genericdatasingle<T> : genericresult {
+        public T Result { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace CargadosTrucking
             InitializeComponent();
             XF.Material.Forms.Material.Init(this);
 
-            var d = new NavigationPage(new MainPage());
+            var d = new NavigationPage(new Login());
             d.Style = (Style)Xamarin.Forms.Application.Current.Resources["Mainpage"];
             MainPage = d;
         }

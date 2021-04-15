@@ -9,7 +9,7 @@ namespace CargadosTrucking.Models
     public class BaseViewModel : INotifyPropertyChanged
     {
 
-       public ApiCalls repoapi;
+       internal ApiCalls repoapi;
         bool isBusy = false;
         public bool IsBusy
         {

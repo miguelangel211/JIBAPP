@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -63,7 +64,7 @@ namespace CargadosTrucking.Models
             ImagesList = new ObservableCollection<Fototemp>();
         }
 
-        public async Task cargardatatrip(INavigation nav)
+        public async Task<bool> cargardatatrip()
         {
             genericresult llamada = new genericresult();
             using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Adding images to Work order " + WrokOrder, new XF.Material.Forms.UI.Dialogs.Configurations.MaterialLoadingDialogConfiguration { BackgroundColor = (Color)Application.Current.Resources["azul"], MessageTextColor = (Color)Application.Current.Resources["blanco"], TintColor = (Color)Application.Current.Resources["blanco"] }))
@@ -71,9 +72,13 @@ namespace CargadosTrucking.Models
 
             {
                 List<Photo> imagens = new List<Photo>();
-
+               var imgdef= ImagesList.FirstOrDefault();
+                string cityzip ="";
+                var resultlocation=await  repoapi.Getlocation(imgdef.lat,imgdef.@long);
+                if (resultlocation.realizado)
+                    cityzip = resultlocation.Result.locality+","+ resultlocation.Result.principalSubdivision+","+ resultlocation.Result.postcode;
                 foreach(var f in ImagesList){ 
-                imagens.Add(new Photo { Foto= Convert.ToBase64String(f.Foto),Name=f.FotoNombre,Comentario=f.Comentario });
+                imagens.Add(new Photo { Foto= Convert.ToBase64String(f.Foto),Name=f.FotoNombre,Comentario=f.Comentario ,lat=f.lat,@long=f.@long,CityZip=cityzip});
                 }
                 llamada = await repoapi.checkin(new Parametrosimages {OrderID=Trip.OrderID,Tripid=Trip.TripID,Imagenes=imagens,DriverName=DriverName });
             }
@@ -84,12 +89,13 @@ namespace CargadosTrucking.Models
 
                 
                 Eventosexisten = true;
-               await nav.PopModalAsync();
+                return true;
             }
             else
             {
                 await mensajetoast(llamada.Errores);
             }
+            return false;
         }
         public async Task mensajetoast(string Error)
         {
@@ -121,10 +127,9 @@ namespace CargadosTrucking.Models
 
                     using (var stream = await photo.OpenReadAsync())
                         CurrentImage = DependencyService.Get<IMediaService>().reziseImage(ReadFully(stream));
-                    var newpage = new Editarfotografia(new Fototemp { Foto = CurrentImage, FotoNombre = photo.FileName });
-                    newpage.EventPass += setimagen;
-                    await  Navigationl.PushModalAsync(newpage); ;
-                 //   ImagesList.Add();
+                   await openeditorfoto(new Fototemp { Foto = CurrentImage, FotoNombre = photo.FileName });
+               
+       
                 }
                 catch {
                   
@@ -134,12 +139,24 @@ namespace CargadosTrucking.Models
             IsBusy = false;
 
         }
+        internal async Task openeditorfoto(Fototemp FOTO,bool isediting=false) {
+            var newpage = new Editarfotografia(FOTO,isediting);
+            newpage.EventPass += setimagen;
+            await Navigationl.PushModalAsync(newpage); ;
+        }
 
         public void getcurrentimagestorage(string location) {
             fotolocal.Foto = File.ReadAllBytes(location);
         }
 
 
+        public void setlocationtoimages(Location datalocation)
+        {
+            foreach(var img in ImagesList){
+            
+            }
+
+        }
         public void removerfoto(Fototemp foto)
         {
             ImagesList.Remove(foto);
@@ -147,7 +164,18 @@ namespace CargadosTrucking.Models
 
         public void setimagen(Fototemp data)
         {
-            ImagesList.Add(data);
+            bool finded = false ;
+            for (int i = 0; i < ImagesList.Count; i++) {
+
+                if (ImagesList[i].FotoNombre == data.FotoNombre) {
+                    ImagesList[i].Foto = data.Foto;
+                    ImagesList[i].Comentario = data.Comentario;
+                    finded = true;
+                    break;
+                }
+            }
+            if(!finded)
+                ImagesList.Add(data);
             Eventosexisten = true;
         }
         public static byte[] ReadFully(Stream input)

@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +18,7 @@ namespace CargadosTrucking
     public partial class CapturarFotografia : ContentPage
     {
         CapturarFotografiaModel context;
-        public delegate void EventHandler(Fototemp status);
+        public delegate void EventHandler();
         public event EventHandler EventPass;
         public CapturarFotografia(PgetWorkordersJibapp_Result trip)
         {
@@ -40,15 +40,7 @@ namespace CargadosTrucking
 
         }
 
-        private async void editor_ImageSaving(object sender,ImageSavingEventArgs args)
-        {
-            args.Cancel = true;
-            var stream = args.Stream;
-            var bytes = ReadFully(stream);
-            string   newFile = DependencyService.Get<IMediaService>().SaveImageFromByte(bytes,"crop_"+context.fotolocal.FotoNombre);
-            EventPass(new Fototemp {Foto=bytes,FotoNombre= "crop_" + context.fotolocal.FotoNombre });
-            await Navigation.PopAsync();
-        }
+
 
         public static byte[] ReadFully(Stream input)
         {
@@ -69,7 +61,7 @@ namespace CargadosTrucking
 
         private async void cerrarforma(object sender, EventArgs e)
         {
-           await Navigation.PopAsync();
+           await Navigation.PopModalAsync();
         }
         protected override void OnDisappearing()
         {
@@ -79,22 +71,35 @@ namespace CargadosTrucking
 
         }
 
-        private void AceptarFoto(object sender, EventArgs e)
-        {
 
-       
-        }
 
         private async void finalizartrip(object sender, EventArgs e)
         {
-           await context.cargardatatrip(Navigation);
-           
+            if (context.ImagesList.Count == 0) {
+               await toasts.mensajetoast("There aren't images assigned to this order");
+                return;
+            }
+
+            bool realizado =  await context.cargardatatrip();
+            if (realizado)
+            {
+                EventPass();
+                await Navigation.PopModalAsync();
+            }
+
+
+
         }
 
         private void removerfoto(object sender, EventArgs e)
         {
             context.removerfoto((Fototemp)((Button)sender).BindingContext);
 
+        }
+
+        private async void imagentapped(object sender, ItemTappedEventArgs e)
+        {
+           await context.openeditorfoto((Fototemp)(e.Item), true);
         }
     }
 }

@@ -61,5 +61,12 @@ namespace CargadosTrucking
             Navigation.PopModalAsync();
         }
 
+        private async void cerrarsesion(object sender, EventArgs e)
+        {
+             SecureStorage.Remove("sessiondriverJIB");
+             var d = new NavigationPage(new Login());
+            d.Style = (Style)Xamarin.Forms.Application.Current.Resources["Mainpage"];
+            App.Current.MainPage = d;
+        }
     }
 }

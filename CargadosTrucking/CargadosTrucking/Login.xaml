@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="CargadosTrucking.Login">
+    <ContentPage.Content>
+        
+        <StackLayout Margin="20,20,20,20">
+            <ActivityIndicator x:Name="loading" IsRunning="True" HeightRequest="600" WidthRequest="600" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Color="{d:StaticResource orangemain}" />
+            <StackLayout x:Name="loginpage" IsVisible="false">
+                <ff:CachedImage x:Name  = "photoselected" 
+                LoadingPlaceholder   = "album.png"
+                                
+                ErrorPlaceholder     = "Error"
+                HeightRequest        = "120"
+                CacheDuration        = "30"
+                RetryCount           = "3"
+                RetryDelay           = "450"             
+                Source="LogoJIB"
+                DownsampleToViewSize = "true">
+
+            </ff:CachedImage>
+
+            <Entry x:Name="cellphone" Placeholder="Phone Number" BackgroundColor="#FFFAFA" Margin="0,50,0,50" HorizontalOptions="FillAndExpand"  PlaceholderColor="DarkCyan" 
+                 Keyboard="Telephone"
+               HorizontalTextAlignment="Center"/>
+
+            <Button Text="Login" BackgroundColor="#354883" HorizontalOptions="FillAndExpand" Margin="0,50,0,50" 
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="35"
+                Clicked="Button_Clicked"
+                />
+        </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

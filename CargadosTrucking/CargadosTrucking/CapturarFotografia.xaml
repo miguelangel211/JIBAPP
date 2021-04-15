@@ -8,16 +8,17 @@
              x:Class="CargadosTrucking.CapturarFotografia">
     <ContentPage.Content>
         <StackLayout Margin="20,20,20,20">
+            <Button HorizontalOptions="Start" TextColor="White" Text="X" BackgroundColor="#354883" Clicked="cerrarforma" HeightRequest="40" WidthRequest="40" CornerRadius="20"/>
             <ff:CachedImage x:Name  = "photoselected" 
                 LoadingPlaceholder   = "album.png"
-                                
+                                Margin="0,-40,0,0"
                 ErrorPlaceholder     = "Error"
                 HeightRequest        = "120"
                 CacheDuration        = "30"
                 RetryCount           = "3"
                 RetryDelay           = "450"             
                 Source="LogoJIB"
-                DownsampleToViewSize = "true">
+                DownsampleToViewSize = "true" HorizontalOptions="Center">
 
             </ff:CachedImage>
             <Label Text="Trip Information" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
@@ -50,7 +51,7 @@
                               IsPullToRefreshEnabled="False"
                               IsGroupingEnabled="False"
                              SeparatorColor="Transparent"
-                            
+                            ItemTapped="imagentapped"
                               SelectionMode="None"
                              
                               IsRefreshing="{Binding IsBusy,Mode=OneWay}"
@@ -71,7 +72,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <Frame Padding="0,0,0,0" Margin="0,5,0,5"  HasShadow="True" CornerRadius="10">
-                                <StackLayout>
+                                <StackLayout  BackgroundColor="{StaticResource blanco}">
                                     <StackLayout  BackgroundColor="{StaticResource blanco}"  Orientation="Horizontal">
                                     <ff:CachedImage HorizontalOptions="CenterAndExpand" x:Name  = "photoselected" 
                                     LoadingPlaceholder   = "album.png"
@@ -88,7 +89,7 @@
                                    <!--- <Label Margin="5,8,5,8" Text="{Binding FotoNombre}" TextColor="#354883"/>-->
                                     <Button Text="X" TextColor="White" BackgroundColor="Red" WidthRequest="45" HeightRequest="45" VerticalOptions="StartAndExpand" Clicked="removerfoto" HorizontalOptions="EndAndExpand"/>
                                 </StackLayout>
-                                    <Label  Margin="5,8,5,8"  BackgroundColor="Transparent" Text="{Binding Comentario}" TextColor="#354883"/>
+                                    <Label  Margin="5,8,5,8" HorizontalOptions="CenterAndExpand"  BackgroundColor="White" Text="{Binding Comentario}" TextColor="#354883"/>
 
                                 </StackLayout>
                             </Frame>
