@@ -35,6 +35,7 @@ namespace CargadosTrucking.Models
         private PgetWorkordersJibapp_Result trip;
         public PgetWorkordersJibapp_Result Trip { get { return trip; } set { trip = value;OnPropertyChanged(); } }
 
+        #region
         public string drivername;
         public string DriverName { get { return drivername; } set { drivername = value; OnPropertyChanged(); } }        
         public string tripid;
@@ -48,6 +49,36 @@ namespace CargadosTrucking.Models
         private string vim;
 
         public string VIM { get { return vim; } set { vim = value; OnPropertyChanged(); } }
+        private string ordeni;
+
+  /*      public string OrderID { get { return ordeni; } set { ordeni = value; OnPropertyChanged(); } }
+        private string orig;
+
+        public string Origin { get { return orig; } set { orig = value; OnPropertyChanged(); } }        
+        private string dest;
+
+        public string Destrination { get { return dest; } set { dest = value; OnPropertyChanged(); } }        
+        private string buy;
+
+        public string Buyer { get { return buy; } set { buy = value; OnPropertyChanged(); } }        
+        private string lo;
+
+        public string Lot { get { return lo; } set { lo = value; OnPropertyChanged(); } }        
+        private string woy;
+
+        public string WO_Year { get { return woy; } set { woy = value; OnPropertyChanged(); } }        
+        private string woma;
+
+        public string WO_Make { get { return woma; } set { woma = value; OnPropertyChanged(); } }        
+        private string wom;
+
+        public string WO_Model { get { return wom; } set { wom = value; OnPropertyChanged(); } }        
+        private string cname;
+
+        public string CustomerName { get { return cname; } set { cname = value; OnPropertyChanged(); } }*/
+        #endregion
+
+
         private bool eventose;
         public bool Eventosexisten { get { return eventose; } set { eventose = value; OnPropertyChanged(); } }
         INavigation Navigationl;
@@ -126,7 +157,7 @@ namespace CargadosTrucking.Models
                 {
 
                     using (var stream = await photo.OpenReadAsync())
-                        CurrentImage = DependencyService.Get<IMediaService>().reziseImage(ReadFully(stream));
+                        CurrentImage = DependencyService.Get<IMediaService>().phototakenoriginal(ReadFully(stream));
                    await openeditorfoto(new Fototemp { Foto = CurrentImage, FotoNombre = photo.FileName });
                
        

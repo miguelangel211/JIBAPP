@@ -11,11 +11,17 @@ namespace CargadosTrucking.Models
         public string DriverName { get; set; }
         private int? fot;
         public Nullable<int> fotos { get { return fot; } set { fot = value;OnPropertyChanged(); } }
-
         public int OrderID { get; set; }
         public string WO_Make { get; set; }
         public string WO_Model { get; set; }
         public string WO_Year { get; set; }
         public string WO_VIN { get; set; }
+        public string Origin { get; set; }
+        public string Destrination { get; set; }
+        public string Auction { get; set; }
+        public string Buyer { get; set; }
+        public string Lot { get; set; }
+
+        public string CustomerName { get; set; }
     }
 }

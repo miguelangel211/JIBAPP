@@ -1,4 +1,5 @@
 ﻿using CargadosTrucking.Clases;
+using CargadosTrucking.Helpers;
 using Plugin.Media;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace CargadosTrucking.Models
         public EditarFotoModel(Fototemp data)
         {
             fotolocal = data;
+
             CurrentImage = fotolocal.Foto;
             Comments = fotolocal.Comentario;
             TomarFoto = new Command(async () => await tomarfotot());
@@ -56,7 +58,7 @@ namespace CargadosTrucking.Models
                 {
 
                     using (var stream = await photo.OpenReadAsync())
-                        CurrentImage = ReadFully(stream);
+                        CurrentImage = DependencyService.Get<IMediaService>().phototakenoriginal(ReadFully(stream));
 
                     fotolocal.Foto = CurrentImage; fotolocal.FotoNombre = photo.FileName; fotolocal.Fecha = DateTime.Now.ToShortDateString();fotolocal.Comentario = Comments;
 

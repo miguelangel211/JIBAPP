@@ -74,7 +74,7 @@ namespace CargadosTrucking
 
             }
             var location = await Geolocation.GetLastKnownLocationAsync();
-            
+     
             EventPass(new Fototemp { Foto = bytes, FotoNombre =  context.fotolocal.FotoNombre,Comentario= context.Comments,lat=location.Latitude.ToString(),@long=location.Longitude.ToString() });
             await Navigation.PopModalAsync();
         }
@@ -96,7 +96,7 @@ namespace CargadosTrucking
                 Isedit = false;
                 return;
             }
-            Editorfoto.Rotate();
+          //  Editorfoto.Rotate();
         }
 
         private async void cerrarforma(object sender, EventArgs e)

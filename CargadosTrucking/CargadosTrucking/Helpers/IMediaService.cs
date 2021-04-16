@@ -10,5 +10,6 @@ namespace CargadosTrucking.Helpers
         byte[] getimagearray(string urloriginal);
 
         byte[] reziseImage(byte[] Image);
+        byte[] phototakenoriginal(byte[] Image);
     }
 }

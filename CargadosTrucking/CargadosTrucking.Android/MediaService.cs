@@ -173,8 +173,20 @@ namespace CargadosTrucking.Droid
 
         public byte[] reziseImage(byte[] Image)
         {
+          
             var bit = bytesToBitmap(Image);
-           // Bitmap bitmap = Bitmap.CreateScaledBitmap(bit,bit.Height/2 ,bit.Width/2,false);
+            if (bit.Height>bit.Width) {
+                var matrix = new Matrix();
+                matrix.PostRotate(-90);
+                matrix.PreScale(1, 1);
+
+                var bit2 =Bitmap.CreateBitmap(bit, 0, 0, bit.Width , bit.Height , matrix, true);
+                using (var stream = new MemoryStream())
+                {
+                    bit2.Compress(Bitmap.CompressFormat.Jpeg, 30, stream);
+                    return stream.ToArray();
+                }
+            }
             using (var stream = new MemoryStream())
             {
                 bit.Compress(Bitmap.CompressFormat.Jpeg, 30, stream);
@@ -182,6 +194,37 @@ namespace CargadosTrucking.Droid
             }
 
            
+        }
+
+        public byte[] phototakenoriginal(byte[] Image)
+        {
+                Bitmap image = bytesToBitmap(Image);
+            if (image.Width > image.Height)
+            {
+
+                var matrix = new Matrix();
+                var scaleWidth = image.Width;
+                var scaleHeight = image.Height;
+                matrix.PostRotate(90);
+                matrix.PreScale(1, 1);
+                var bit2 = Bitmap.CreateBitmap(image, 0, 0, image.Width, image.Height, matrix, true);
+                using (var stream = new MemoryStream())
+                {
+                    bit2.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+                    return stream.ToArray();
+                }
+            }
+            else
+            {
+                using (var stream = new MemoryStream()) { 
+                    
+                    image.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+                    return stream.ToArray();
+                }
+
+            }
+            
+            
         }
     }
 }

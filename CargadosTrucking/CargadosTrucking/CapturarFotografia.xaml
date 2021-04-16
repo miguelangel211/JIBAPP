@@ -8,20 +8,11 @@
              x:Class="CargadosTrucking.CapturarFotografia">
     <ContentPage.Content>
         <StackLayout Margin="20,20,20,20">
-            <Button HorizontalOptions="Start" TextColor="White" Text="X" BackgroundColor="#354883" Clicked="cerrarforma" HeightRequest="40" WidthRequest="40" CornerRadius="20"/>
-            <ff:CachedImage x:Name  = "photoselected" 
-                LoadingPlaceholder   = "album.png"
-                                Margin="0,-40,0,0"
-                ErrorPlaceholder     = "Error"
-                HeightRequest        = "120"
-                CacheDuration        = "30"
-                RetryCount           = "3"
-                RetryDelay           = "450"             
-                Source="LogoJIB"
-                DownsampleToViewSize = "true" HorizontalOptions="Center">
+            <StackLayout Orientation="Horizontal">
+                <Button HorizontalOptions="Start" TextColor="White" Text="X" BackgroundColor="#354883" Clicked="cerrarforma" HeightRequest="40" WidthRequest="40" CornerRadius="20"/>
 
-            </ff:CachedImage>
-            <Label Text="Trip Information" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="Center" FontSize="Large"/>
+            <Label Text="Load Information" VerticalOptions="EndAndExpand" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+            </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
@@ -33,13 +24,63 @@
                     <Label Text="{Binding WrokOrder}" TextColor="#5aa755"/>
                 </StackLayout>
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding Modelo}" TextColor="#5aa755"/>
-                    <Label Padding="0,0,0,0"   TextColor="Gray" Text="{Binding VIM,Converter={d:StaticResource vimhelper}}"/>
+                        <StackLayout>
+                            <Label  Text="Maker" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                            <Label  Text="{Binding Trip.WO_Make}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                        </StackLayout>
+                        <StackLayout>
+                            <Label  Text="Model" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                            <Label Text="{Binding Trip.WO_Model}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                        </StackLayout>                        
+                        <StackLayout>
+                            <Label  Text="Year" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                            <Label  Text="{Binding Trip.WO_Year}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                        </StackLayout>                        
+                        <StackLayout>
+                            <Label  Text="VIM" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                            <Label   TextColor="Gray" Text="{Binding VIM,Converter={d:StaticResource vimhelper}}"/>
+                        </StackLayout>
+                    </StackLayout>                    
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout>
+                            <Label  Text="Auction" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                            <Label  Text="{Binding Trip.Auction}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                        </StackLayout>
+                        <StackLayout>
+                            <Label  Text="Buyer" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                            <Label Text="{Binding Trip.Buyer}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                        </StackLayout>                        
+                        <StackLayout>
+                            <Label  Text="Lot" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                            <Label  Text="{Binding Trip.Lot}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                        </StackLayout>                        
+
                     </StackLayout>
                 </StackLayout>
-            <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" VerticalOptions="Center" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="40" HeightRequest="40" BorderRadius="40"/>
-
+                <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" VerticalOptions="Center" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="40" HeightRequest="40" BorderRadius="40"/>
             </StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                
+                <ColumnDefinition Width=".5*"/>
+                    <ColumnDefinition Width=".5*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Text="Origin" Grid.Column="0" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                <Label Grid.Row="0" Text="{Binding Trip.Origin}" VerticalOptions="EndAndExpand" TextColor="#5aa755" Grid.Column="0"/>                
+                   
+
+                <Label Grid.Row="0" Text="Destination" Grid.Column="1" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                <Label Grid.Row="0" Text="{Binding Trip.Destrination}" VerticalOptions="EndAndExpand" TextColor="#5aa755" Grid.Column="1"/>
+
+
+                <Label Grid.Row="1" Text="Customer Name" Grid.Column="0" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                <Label Grid.Row="1" Text="{Binding Trip.CustomerName}" VerticalOptions="EndAndExpand" TextColor="#5aa755" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+            </Grid>
 
             <models:InfiniteListView 
                               x:Name="ListaTiendas"
@@ -87,7 +128,7 @@
 
                                     </ff:CachedImage>
                                    <!--- <Label Margin="5,8,5,8" Text="{Binding FotoNombre}" TextColor="#354883"/>-->
-                                    <Button Text="X" TextColor="White" BackgroundColor="Red" WidthRequest="45" HeightRequest="45" VerticalOptions="StartAndExpand" Clicked="removerfoto" HorizontalOptions="EndAndExpand"/>
+                                        <Button Text="X" TextColor="White" BackgroundColor="Red" WidthRequest="45" HeightRequest="45" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="removerfoto" />
                                 </StackLayout>
                                     <Label  Margin="5,8,5,8" HorizontalOptions="CenterAndExpand"  BackgroundColor="White" Text="{Binding Comentario}" TextColor="#354883"/>
 
