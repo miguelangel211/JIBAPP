@@ -24,5 +24,9 @@ namespace CargadosTrucking.Models
         public int Tripid { get; set; }
         public int OrderID { get; set; }
         public string DriverName { get; set; }
+        public bool Batery { get; set; }
+        public bool Catalizer { get; set; }
+        public bool Key { get; set; }
+        public bool Radio { get; set; }
     }
 }

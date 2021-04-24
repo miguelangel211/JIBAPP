@@ -21,11 +21,11 @@ using XF.Material.Forms.UI.Dialogs;
 
 namespace CargadosTrucking.Models
 {
-    public class CapturarFotografiaModel:BaseViewModel
+    public class CapturarFotografiaModel : BaseViewModel
     {
         public Fototemp fotolocal { get; set; }
         public byte[] image { get; set; }
-        public byte[] CurrentImage { get { return image; } set { image = value;OnPropertyChanged(); } }
+        public byte[] CurrentImage { get { return image; } set { image = value; OnPropertyChanged(); } }
         private ObservableCollection<Fototemp> es;
         public ObservableCollection<Fototemp> ImagesList { get { return es; } set { es = value; OnPropertyChanged(); } }
 
@@ -33,92 +33,82 @@ namespace CargadosTrucking.Models
         public Command TomarFoto { get { return tomarfoto; } set { tomarfoto = value; OnPropertyChanged(); } }
 
         private PgetWorkordersJibapp_Result trip;
-        public PgetWorkordersJibapp_Result Trip { get { return trip; } set { trip = value;OnPropertyChanged(); } }
+        public PgetWorkordersJibapp_Result Trip { get { return trip; } set { trip = value; OnPropertyChanged(); } }
 
-        #region
+        #region trip values
         public string drivername;
-        public string DriverName { get { return drivername; } set { drivername = value; OnPropertyChanged(); } }        
+        public string DriverName { get { return drivername; } set { drivername = value; OnPropertyChanged(); } }
         public string tripid;
-        public string TripId { get { return tripid; } set { tripid = value; OnPropertyChanged(); } }          
+        public string TripId { get { return tripid; } set { tripid = value; OnPropertyChanged(); } }
         private string wor;
-        public string WrokOrder { get { return wor; } set { wor = value; OnPropertyChanged(); } }        
+        public string WrokOrder { get { return wor; } set { wor = value; OnPropertyChanged(); } }
         private string model;
-
         public string Modelo { get { return model; } set { model = value; OnPropertyChanged(); } }
+        private bool savingfields;
+        public bool SavingFieldsVisible { get { return savingfields; } set { savingfields = value; OnPropertyChanged(); } }        
+        private bool filled;
+        public bool FilledOrder { get { return filled; } set { filled = value; OnPropertyChanged(); } }
 
         private string vim;
 
         public string VIM { get { return vim; } set { vim = value; OnPropertyChanged(); } }
         private string ordeni;
 
-  /*      public string OrderID { get { return ordeni; } set { ordeni = value; OnPropertyChanged(); } }
-        private string orig;
 
-        public string Origin { get { return orig; } set { orig = value; OnPropertyChanged(); } }        
-        private string dest;
-
-        public string Destrination { get { return dest; } set { dest = value; OnPropertyChanged(); } }        
-        private string buy;
-
-        public string Buyer { get { return buy; } set { buy = value; OnPropertyChanged(); } }        
-        private string lo;
-
-        public string Lot { get { return lo; } set { lo = value; OnPropertyChanged(); } }        
-        private string woy;
-
-        public string WO_Year { get { return woy; } set { woy = value; OnPropertyChanged(); } }        
-        private string woma;
-
-        public string WO_Make { get { return woma; } set { woma = value; OnPropertyChanged(); } }        
-        private string wom;
-
-        public string WO_Model { get { return wom; } set { wom = value; OnPropertyChanged(); } }        
-        private string cname;
-
-        public string CustomerName { get { return cname; } set { cname = value; OnPropertyChanged(); } }*/
         #endregion
 
+        #region checks
+        public bool checkba;
+        public bool Baterycheck { get { return checkba; } set { checkba = value;OnPropertyChanged(); } }        
+        public bool checkcata;
+        public bool Catalizercheck { get { return checkcata; } set { checkcata = value;OnPropertyChanged(); } }        
+        public bool checkkey;
+        public bool Keyrcheck { get { return checkkey; } set { checkkey = value;OnPropertyChanged(); } }      
+        public bool checkrad;
+        public bool Radiocheck { get { return checkrad; } set { checkrad = value;OnPropertyChanged(); } }
+        #endregion
 
         private bool eventose;
         public bool Eventosexisten { get { return eventose; } set { eventose = value; OnPropertyChanged(); } }
         INavigation Navigationl;
-        public CapturarFotografiaModel(PgetWorkordersJibapp_Result trip,INavigation nav) {
+        public CapturarFotografiaModel(PgetWorkordersJibapp_Result trip, INavigation nav) {
             Navigationl = nav;
             Trip = trip;
             DriverName = trip.DriverName;
             TripId = trip.TripID.ToString();
-           // CurrentImage = fotolocal.Foto;
-            Modelo =trip.WO_Make+"," +trip.WO_Model+","+trip.WO_Year;
+            Modelo = trip.WO_Make + "," + trip.WO_Model + "," + trip.WO_Year;
             WrokOrder = trip.OrderID.ToString();
             TomarFoto = new Command(async () => await tomarfotot());
             VIM = trip.WO_VIN;
             ImagesList = new ObservableCollection<Fototemp>();
+            checkphotoquantity();
+            FilledOrder = SavingFieldsVisible;
         }
 
         public async Task<bool> cargardatatrip()
         {
-            genericresult llamada = new genericresult();
+            genericdatasingle<string> llamada = new genericdatasingle<string>();
             using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Adding images to Work order " + WrokOrder, new XF.Material.Forms.UI.Dialogs.Configurations.MaterialLoadingDialogConfiguration { BackgroundColor = (Color)Application.Current.Resources["azul"], MessageTextColor = (Color)Application.Current.Resources["blanco"], TintColor = (Color)Application.Current.Resources["blanco"] }))
 
 
             {
                 List<Photo> imagens = new List<Photo>();
-               var imgdef= ImagesList.FirstOrDefault();
-                string cityzip ="";
-                var resultlocation=await  repoapi.Getlocation(imgdef.lat,imgdef.@long);
+                var imgdef = ImagesList.FirstOrDefault();
+                string cityzip = "";
+                var resultlocation = await repoapi.Getlocation(imgdef.lat, imgdef.@long);
                 if (resultlocation.realizado)
-                    cityzip = resultlocation.Result.locality+","+ resultlocation.Result.principalSubdivision+","+ resultlocation.Result.postcode;
-                foreach(var f in ImagesList){ 
-                imagens.Add(new Photo { Foto= Convert.ToBase64String(f.Foto),Name=f.FotoNombre,Comentario=f.Comentario ,lat=f.lat,@long=f.@long,CityZip=cityzip});
+                    cityzip = resultlocation.Result.locality + "," + resultlocation.Result.principalSubdivision + "," + resultlocation.Result.postcode;
+                foreach (var f in ImagesList) {
+                    imagens.Add(new Photo { Foto = Convert.ToBase64String(f.Foto), Name = f.FotoNombre, Comentario = f.Comentario, lat = f.lat, @long = f.@long, CityZip = cityzip });
                 }
-                llamada = await repoapi.checkin(new Parametrosimages {OrderID=Trip.OrderID,Tripid=Trip.TripID,Imagenes=imagens,DriverName=DriverName });
+                llamada = await repoapi.checkin(new Parametrosimages { OrderID = Trip.OrderID, Tripid = Trip.TripID, Imagenes = imagens, DriverName = DriverName,Batery=Baterycheck,Catalizer=Catalizercheck,Key=Keyrcheck,Radio=Radiocheck });
             }
 
             if (llamada.realizado)
             {
-                await mensajetoast("Images saved");
+                await mensajetoast(llamada.Result);
 
-                
+
                 Eventosexisten = true;
                 return true;
             }
@@ -149,8 +139,8 @@ namespace CargadosTrucking.Models
             }
 
 
-             photo = await MediaPicker.CapturePhotoAsync();
-            
+            photo = await MediaPicker.CapturePhotoAsync();
+
             if (photo != null)
             {
                 try
@@ -158,20 +148,20 @@ namespace CargadosTrucking.Models
 
                     using (var stream = await photo.OpenReadAsync())
                         CurrentImage = DependencyService.Get<IMediaService>().phototakenoriginal(ReadFully(stream));
-                   await openeditorfoto(new Fototemp { Foto = CurrentImage, FotoNombre = photo.FileName });
-               
-       
+                    await openeditorfoto(new Fototemp { Foto = CurrentImage, FotoNombre = photo.FileName });
+
+
                 }
                 catch {
-                  
+
                 }
             }
 
             IsBusy = false;
 
         }
-        internal async Task openeditorfoto(Fototemp FOTO,bool isediting=false) {
-            var newpage = new Editarfotografia(FOTO,isediting);
+        internal async Task openeditorfoto(Fototemp FOTO, bool isediting = false) {
+            var newpage = new Editarfotografia(FOTO, isediting);
             newpage.EventPass += setimagen;
             await Navigationl.PushModalAsync(newpage); ;
         }
@@ -181,21 +171,16 @@ namespace CargadosTrucking.Models
         }
 
 
-        public void setlocationtoimages(Location datalocation)
-        {
-            foreach(var img in ImagesList){
-            
-            }
 
-        }
         public void removerfoto(Fototemp foto)
         {
             ImagesList.Remove(foto);
+            checkphotoquantity();
         }
 
         public void setimagen(Fototemp data)
         {
-            bool finded = false ;
+            bool finded = false;
             for (int i = 0; i < ImagesList.Count; i++) {
 
                 if (ImagesList[i].FotoNombre == data.FotoNombre) {
@@ -205,9 +190,10 @@ namespace CargadosTrucking.Models
                     break;
                 }
             }
-            if(!finded)
+            if (!finded)
                 ImagesList.Add(data);
             Eventosexisten = true;
+            checkphotoquantity();
         }
         public static byte[] ReadFully(Stream input)
         {
@@ -219,7 +205,12 @@ namespace CargadosTrucking.Models
             }
 
         }
-    
+        private void checkphotoquantity(){
+            if ((ImagesList.Count + (Trip.fotos??0)) >= 5)
+                SavingFieldsVisible = true;
+            else
+                SavingFieldsVisible= false;
+        }
 
 }
 }

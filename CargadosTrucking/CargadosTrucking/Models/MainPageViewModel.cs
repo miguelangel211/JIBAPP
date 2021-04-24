@@ -37,8 +37,6 @@ namespace CargadosTrucking.Models
         public Command cargartrip;
         public Command CargarTrip { get { return cargartrip; } set { cargartrip = value; OnPropertyChanged(); } }
         INavigation localNavigation;
-
-
         public string drivername;
         public string DriverName { get { return drivername; } set { drivername = value;OnPropertyChanged(); } }
         public MainPageViewModel(INavigation nav)
@@ -66,7 +64,7 @@ namespace CargadosTrucking.Models
             genericdatar<PgetWorkordersJibapp_Result> llamada = new genericdatar<PgetWorkordersJibapp_Result>();
             using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Searching WorkOrders for trip "+Viajenumero,new XF.Material.Forms.UI.Dialogs.Configurations.MaterialLoadingDialogConfiguration {BackgroundColor = (Color)Application.Current.Resources["azul"]   ,MessageTextColor= (Color)Application.Current.Resources["blanco"],TintColor= (Color)Application.Current.Resources["blanco"] }))
             {
-                llamada =  await repoapi.GetWorkOPrder(int.Parse(Viajenumero));
+                llamada =  await repoapi.GetWorkOPrder((Viajenumero));
             }
          
             if (llamada.realizado)
@@ -86,7 +84,7 @@ namespace CargadosTrucking.Models
         public async Task actualizarviajedata() {
             if (string.IsNullOrWhiteSpace(Viajenumero))
                 return;
-            var   llamada = await repoapi.GetWorkOPrder(int.Parse(Viajenumero??"0"));
+            var   llamada = await repoapi.GetWorkOPrder((Viajenumero??"0"));
         
          
             if (llamada.realizado)

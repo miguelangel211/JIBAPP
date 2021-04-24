@@ -2,90 +2,89 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:imageeditor="clr-namespace:Syncfusion.SfImageEditor.XForms;assembly=Syncfusion.SfImageEditor.XForms" xmlns:models="clr-namespace:CargadosTrucking.CustomView"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:imageeditor="clr-namespace:Syncfusion.SfImageEditor.XForms;assembly=Syncfusion.SfImageEditor.XForms" xmlns:models="clr-namespace:CargadosTrucking.CustomView"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              mc:Ignorable="d"
              Style="{StaticResource Mainpage}"
              x:Class="CargadosTrucking.CapturarFotografia">
     <ContentPage.Content>
-        <StackLayout Margin="20,20,20,20">
-            <StackLayout Orientation="Horizontal">
-                <Button HorizontalOptions="Start" TextColor="White" Text="X" BackgroundColor="#354883" Clicked="cerrarforma" HeightRequest="40" WidthRequest="40" CornerRadius="20"/>
+        <StackLayout Margin="20,20,20,20" HorizontalOptions="FillAndExpand">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Button HorizontalOptions="Start" VerticalOptions="Start" TextColor="White" Text="X" FontSize="Micro" BackgroundColor="#354883" Clicked="cerrarforma" HeightRequest="40" WidthRequest="40" CornerRadius="20"/>
 
-            <Label Text="Load Information" VerticalOptions="EndAndExpand" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="CenterAndExpand" FontSize="Large"/>
+                <Label Text="Load Information" VerticalOptions="EndAndExpand" FontAttributes="Bold" TextColor="#191F2D" HorizontalOptions="CenterAndExpand" FontSize="Title"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <StackLayout>
+            
+            <StackLayout>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+
+                    <StackLayout HorizontalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                     <Label  Text="Driver" TextColor="#354883" FontAttributes="Bold"/>
-                    <Label Text="{Binding DriverName}" TextColor="#5aa755"/>
+                    <Label Text="{Binding DriverName}" VerticalOptions="EndAndExpand" TextColor="#5aa755"/>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                    <Label  Text="WorkOrder" TextColor="#354883" FontAttributes="Bold"/>
-                    <Label Text="{Binding WrokOrder}" TextColor="#5aa755"/>
-                </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <StackLayout>
-                            <Label  Text="Maker" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                        <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                                <Label  Text="Customer" TextColor="#354883"  FontAttributes="Bold" VerticalOptions="Start"/>
+                                <Label Text="{Binding Trip.CustomerName}" VerticalOptions="EndAndExpand"  TextColor="#5aa755" />
+                           
+
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="FillAndExpand">
+                            <StackLayout Spacing="0" HorizontalOptions="FillAndExpand">
+                                <Label  Text="Year" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                                <Label  Text="{Binding Trip.WO_Year}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                            </StackLayout>
+                            <StackLayout Spacing="0" HorizontalOptions="FillAndExpand">
+                            <Label  Text="Make" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
                             <Label  Text="{Binding Trip.WO_Make}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
                         </StackLayout>
-                        <StackLayout>
+                            <StackLayout Spacing="0" HorizontalOptions="FillAndExpand">
                             <Label  Text="Model" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
                             <Label Text="{Binding Trip.WO_Model}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
-                        </StackLayout>                        
-                        <StackLayout>
-                            <Label  Text="Year" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
-                            <Label  Text="{Binding Trip.WO_Year}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
-                        </StackLayout>                        
-                        <StackLayout>
-                            <Label  Text="VIM" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                        </StackLayout>
+
+                            <StackLayout Spacing="0" HorizontalOptions="FillAndExpand" >
+                            <Label  Text="VIN" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
                             <Label   TextColor="Gray" Text="{Binding VIM,Converter={d:StaticResource vimhelper}}"/>
                         </StackLayout>
-                    </StackLayout>                    
-                    <StackLayout Orientation="Horizontal">
-                        <StackLayout>
+                    </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <StackLayout Spacing="0" HorizontalOptions="FillAndExpand">
+                                <Label  Text="Buyer" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
+                                <Label Text="{Binding Trip.Buyer}" VerticalOptions="EndAndExpand"  TextColor="#5aa755" />
+                            </StackLayout>
+                            <StackLayout Spacing="0" HorizontalOptions="FillAndExpand">
                             <Label  Text="Auction" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
                             <Label  Text="{Binding Trip.Auction}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
                         </StackLayout>
-                        <StackLayout>
-                            <Label  Text="Buyer" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
-                            <Label Text="{Binding Trip.Buyer}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
-                        </StackLayout>                        
-                        <StackLayout>
+
+                            <StackLayout Spacing="0" HorizontalOptions="FillAndExpand">
                             <Label  Text="Lot" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
-                            <Label  Text="{Binding Trip.Lot}" VerticalOptions="EndAndExpand" TextColor="#5aa755" />
+                                <Label  Text="{Binding Trip.Lot}" VerticalOptions="EndAndExpand"  TextColor="#5aa755" />
                         </StackLayout>                        
+                    </StackLayout>                    
+                    <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="FillAndExpand">
+                            <StackLayout Spacing="0" >
+                                <Label  Text="Origin" TextColor="#354883" FontSize="Micro" VerticalOptions="StartAndExpand"/>
+                                <Label  Text="{Binding Trip.Origin}" VerticalOptions="EndAndExpand"  TextColor="#5aa755" />
+                        </StackLayout>
+                            <StackLayout Spacing="0"  HorizontalOptions="CenterAndExpand">
+                                <Label  Text="Destination" TextColor="#354883" FontSize="Micro" VerticalOptions="StartAndExpand"/>
+                                <Label Text="{Binding Trip.Destrination}" VerticalOptions="EndAndExpand"  TextColor="#5aa755" />
+                        </StackLayout>                        
+                    
+                    </StackLayout >
 
                     </StackLayout>
-                </StackLayout>
-                <Button HorizontalOptions="EndAndExpand" Command="{Binding TomarFoto}" VerticalOptions="Center" ImageSource="camera.png" BackgroundColor="#FF773D" WidthRequest="40" HeightRequest="40" BorderRadius="40"/>
             </StackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
-                    <RowDefinition Height="35"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                
-                <ColumnDefinition Width=".5*"/>
-                    <ColumnDefinition Width=".5*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Text="Origin" Grid.Column="0" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
-                <Label Grid.Row="0" Text="{Binding Trip.Origin}" VerticalOptions="EndAndExpand" TextColor="#5aa755" Grid.Column="0"/>                
-                   
 
-                <Label Grid.Row="0" Text="Destination" Grid.Column="1" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
-                <Label Grid.Row="0" Text="{Binding Trip.Destrination}" VerticalOptions="EndAndExpand" TextColor="#5aa755" Grid.Column="1"/>
-
-
-                <Label Grid.Row="1" Text="Customer Name" Grid.Column="0" TextColor="#354883" FontSize="Micro" VerticalOptions="Start"/>
-                <Label Grid.Row="1" Text="{Binding Trip.CustomerName}" VerticalOptions="EndAndExpand" TextColor="#5aa755" Grid.Column="0" Grid.ColumnSpan="2"/>
-
-            </Grid>
 
             <models:InfiniteListView 
                               x:Name="ListaTiendas"
                               ItemsSource="{Binding ImagesList}"
-                              VerticalOptions="FillAndExpand"
+                              VerticalOptions="Start"
                               HasUnevenRows="True" 
                               IsVisible="{Binding Eventosexisten}"
                               BackgroundColor="{StaticResource blanco}"
@@ -94,7 +93,6 @@
                              SeparatorColor="Transparent"
                             ItemTapped="imagentapped"
                               SelectionMode="None"
-                             
                               IsRefreshing="{Binding IsBusy,Mode=OneWay}"
                               >
                 <x:Arguments>
@@ -138,7 +136,37 @@
                     </DataTemplate>
                 </models:InfiniteListView.ItemTemplate>
             </models:InfiniteListView>
-            <Button x:Name="finalizarbutton" BackgroundColor="#354883" Clicked="finalizartrip" VerticalOptions="EndAndExpand" Text="Save"/>
+        </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" IsVisible="{Binding FilledOrder,Converter={d:StaticResource convertbool}}">
+                <StackLayout Spacing="0" IsVisible="{Binding SavingFieldsVisible}" VerticalOptions="EndAndExpand">
+                    <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                        <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <CheckBox Color="#354883" IsChecked="{Binding Baterycheck}" HorizontalOptions="Start"/>
+                            <ffimageloadingsvg:SvgCachedImage HorizontalOptions="Start" WidthRequest="20" Source="batery.svg"/>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <CheckBox Color="#354883" IsChecked="{Binding Catalizercheck}" HorizontalOptions="Start"/>
+                            <ffimageloadingsvg:SvgCachedImage HorizontalOptions="Start" WidthRequest="20" Source="Catalizer.svg"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <CheckBox Color="#354883" IsChecked="{Binding Keyrcheck}" HorizontalOptions="Start"/>
+                            <ffimageloadingsvg:SvgCachedImage HorizontalOptions="Start" WidthRequest="20" Source="Key.svg"/>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <CheckBox Color="#354883" IsChecked="{Binding Radiocheck}" HorizontalOptions="Start"/>
+                            <ffimageloadingsvg:SvgCachedImage HorizontalOptions="Start" WidthRequest="20" Source="Radio.svg"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <Button x:Name="finalizarbutton" BackgroundColor="#354883" Clicked="finalizartrip" VerticalOptions="EndAndExpand" Text="Save"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="EndAndExpand" IsVisible="{Binding SavingFieldsVisible,Converter={d:StaticResource convertbool}}">
+                    <Button   Command="{Binding TomarFoto}"  ImageSource="camera.png" BackgroundColor="#FF773D" VerticalOptions="EndAndExpand"  BorderRadius="40"/>
+
+                </StackLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" IsVisible="{Binding FilledOrder}">
+                <Button   Text="Work Order already has photos assigned" BackgroundColor="#FF773D" VerticalOptions="EndAndExpand"  BorderRadius="40"/>
+            </StackLayout>
         </StackLayout>
 
     </ContentPage.Content>

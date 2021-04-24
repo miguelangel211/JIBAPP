@@ -21,7 +21,7 @@ namespace CargadosTrucking
             client.Timeout = TimeSpan.FromMinutes(4);
         }
 
-        public async Task<genericresult> checkin(Parametrosimages parametro)
+        public async Task<genericdatasingle<string>> checkin(Parametrosimages parametro)
         {
             string Errores = null;
 
@@ -32,12 +32,12 @@ namespace CargadosTrucking
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 response = await client.PostAsync(string.Concat(url2, "api/WorkOrders/SaveImageneswororder"), content);
                 string r = await response.Content.ReadAsStringAsync();
-                var respuestageneric = JsonConvert.DeserializeObject<genericresult>(r);
+                var respuestageneric = JsonConvert.DeserializeObject<genericdatasingle<string>>(r);
                 Errores = respuestageneric.Errores;
                 if (respuestageneric.realizado)
                 {
 
-                    var reso = JsonConvert.DeserializeObject<genericresult>(r);
+                    var reso = JsonConvert.DeserializeObject<genericdatasingle<string>>(r);
 
                     return await Task.FromResult(reso);
                 }
@@ -52,7 +52,7 @@ namespace CargadosTrucking
             catch (Exception ex)
             {
 
-                var r = new genericresult() { realizado = false};
+                var r = new genericdatasingle<string>() { realizado = false};
                 if (!string.IsNullOrEmpty(Errores))
                 {
                   r.Errores   = Errores;
@@ -103,7 +103,7 @@ namespace CargadosTrucking
             
         }        
         
-        internal async Task<genericdatar<PgetWorkordersJibapp_Result>>  GetWorkOPrder(int tripid)
+        internal async Task<genericdatar<PgetWorkordersJibapp_Result>>  GetWorkOPrder(string tripid)
         {
     
                 string Errores = null;
