@@ -34,15 +34,10 @@ namespace CargadosTrucking
 
         async void clickonchangerutaapi(object senser, EventArgs args)
         {
-            if (passw.Text == "jibunited123456")
-            {
+           
                 await SecureStorage.SetAsync("rutaapiJIB", rutaapi.Text.Trim());
                 await DisplayAlert("Api", "Ruta api guardada: ", "OK");
-            }
-            else {
-                await DisplayAlert("Api", "Password incorrecto", "OK");
-
-            }
+       
 
         }
 
