@@ -25,7 +25,7 @@ namespace CargadosTrucking
 
             var urlapibase = await SecureStorage.GetAsync("rutaapiJIB");
             if (urlapibase == "" || urlapibase == null)
-                urlapibase = "http://datserver.ddns.net:8089/JIBUnitedapi/";
+                urlapibase = "";
             rutaapi.Text = urlapibase;
 
         }
